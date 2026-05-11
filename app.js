@@ -61,15 +61,21 @@ function showResult(){
     colorClass = "low";
   }
   else if(totalScore <= 5){
-    title = "😥 주의 상태";
+    title =
+      "😥 주의 상태";
+
     message =
       "스트레스 관리가 필요한 상태입니다.";
+
     colorClass = "mid";
   }
   else{
-    title = "🚨 위험 상태";
+    title =
+      "🚨 위험 상태";
+
     message =
       "현재 번아웃 위험도가 높습니다.";
+
     colorClass = "high";
   }
 
@@ -95,22 +101,22 @@ function showResult(){
 
       <div class="share-box">
 
-  <button class="share-btn"
-    onclick="shareResult()">
-    카카오톡 공유하기
-  </button>
+        <button class="share-btn"
+          onclick="shareResult()">
+          링크 복사
+        </button>
 
-  <button class="retry-btn"
-    onclick="location.reload()">
-    다시 테스트하기
-  </button>
+        <button class="retry-btn"
+          onclick="saveImage()">
+          결과 이미지 저장
+        </button>
 
-  <button class="retry-btn"
-    onclick="saveImage()">
-    결과 이미지 저장
-  </button>
+        <button class="retry-btn"
+          onclick="location.reload()">
+          다시 테스트하기
+        </button>
 
-</div>
+      </div>
 
     </div>
   `;
@@ -125,7 +131,6 @@ function shareResult(){
   alert("링크가 복사되었습니다!");
 }
 
-showQuestion();
 function saveImage(){
 
   const target =
@@ -136,10 +141,14 @@ function saveImage(){
     const link =
       document.createElement("a");
 
-    link.download = "stress-result.png";
+    link.download =
+      "stress-result.png";
 
-    link.href = canvas.toDataURL();
+    link.href =
+      canvas.toDataURL();
 
     link.click();
   });
 }
+
+showQuestion();
