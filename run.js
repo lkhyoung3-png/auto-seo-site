@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { topics, actions } = require("./keywords");
-const { generateHTML } = require("./generator");
+const  generateHTML  = require("./generator");
 
 function random(arr){
   return arr[Math.floor(Math.random() * arr.length)];
@@ -16,11 +16,11 @@ if(!fs.existsSync("./pages")){
 
 let urls = [];
 
-for(let i=0;i<20;i++){
+for(let i=0;i<100;i++){
   const keyword = createKeyword();
   const fileName = `page_${i}.html`;
 
-  fs.writeFileSync(`./pages/${fileName}`, generateHTML(keyword));
+  fs.writeFileSync(`./${fileName}`, generateHTML(keyword));
 
   urls.push(`<url><loc>https://yourdomain.com/pages/${fileName}</loc></url>`);
 }
