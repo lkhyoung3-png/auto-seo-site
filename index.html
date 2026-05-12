@@ -95,6 +95,8 @@ button{
 
   animation:bgMove 8s ease-in-out infinite;
 
+  pointer-events:none;
+
 }
 
 @keyframes bgMove{
@@ -134,7 +136,6 @@ button{
 .logo{
 
   position:relative;
-
   z-index:2;
 
   font-size:12px;
@@ -149,12 +150,13 @@ button{
 
 .hero-coin{
 
+  position:relative;
+  z-index:2;
+
   width:240px;
   height:240px;
 
   border-radius:50%;
-
-  position:relative;
 
   overflow:hidden;
 
@@ -215,6 +217,9 @@ button{
 
 .sub{
 
+  position:relative;
+  z-index:2;
+
   margin-top:40px;
 
   opacity:.55;
@@ -226,6 +231,9 @@ button{
 }
 
 .start-btn{
+
+  position:relative;
+  z-index:2;
 
   margin-top:28px;
 
@@ -677,8 +685,6 @@ button{
 RESET
 </button>
 
-<!-- 랜딩 -->
-
 <section id="landing" class="screen">
 
   <div class="bg"></div>
@@ -702,8 +708,6 @@ RESET
   </button>
 
 </section>
-
-<!-- 질문 -->
 
 <section id="quiz" class="screen hidden">
 
@@ -732,8 +736,6 @@ RESET
   </div>
 
 </section>
-
-<!-- 결과 -->
 
 <section id="result" class="screen hidden">
 
@@ -766,8 +768,6 @@ RESET
   </div>
 
 </section>
-
-<!-- 히스토리 -->
 
 <section id="historyScreen" class="screen hidden">
 
