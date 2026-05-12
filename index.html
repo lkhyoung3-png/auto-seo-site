@@ -30,14 +30,11 @@ body{
 .screen{
   width:100vw;
   height:100vh;
-
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-
   position:relative;
-
   padding:24px;
 }
 
@@ -49,26 +46,17 @@ button{
   font-family:inherit;
 }
 
-/* 배경 */
-
 .bg{
-
   position:absolute;
-
   width:700px;
   height:700px;
-
   border-radius:50%;
-
   background:
   radial-gradient(circle,
   rgba(120,140,255,.18),
   transparent 70%);
-
   filter:blur(80px);
-
   animation:bgMove 8s ease-in-out infinite;
-
 }
 
 @keyframes bgMove{
@@ -87,20 +75,29 @@ button{
 
 }
 
-/* 랜딩 */
+@keyframes float{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
 
 .logo{
-
   position:relative;
   z-index:2;
-
   font-size:12px;
   letter-spacing:8px;
-
   opacity:.45;
-
   margin-bottom:40px;
-
 }
 
 .hero-coin{
@@ -160,25 +157,16 @@ button{
 }
 
 .hero-text{
-
   font-size:18px;
   letter-spacing:4px;
   font-weight:200;
-
 }
 
 .sub{
-
   margin-top:40px;
-
   opacity:.55;
-
   font-size:14px;
-
   text-align:center;
-
-  line-height:1.5;
-
 }
 
 .start-btn{
@@ -198,22 +186,14 @@ button{
   letter-spacing:3px;
 
   box-shadow:
-  0 20px 50px rgba(0,0,0,.45),
-  inset 0 1px 0 rgba(255,255,255,.06);
-
-  transition:.25s;
+  0 20px 50px rgba(0,0,0,.45);
 
 }
-
-.start-btn:hover{
-  transform:translateY(-2px);
-}
-
-/* 질문 */
 
 .progress{
 
   position:absolute;
+
   top:70px;
 
   width:70%;
@@ -251,30 +231,21 @@ button{
   border-radius:32px;
 
   background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.04),
-  transparent 60%),
-
   linear-gradient(145deg,
   #11141c,
   #090b10);
 
   box-shadow:
-  0 30px 80px rgba(0,0,0,.7),
-  inset 0 1px 0 rgba(255,255,255,.04);
+  0 30px 80px rgba(0,0,0,.7);
 
   text-align:center;
 
 }
 
 .question-number{
-
   font-size:12px;
-
   letter-spacing:3px;
-
   opacity:.4;
-
 }
 
 .question-text{
@@ -284,8 +255,6 @@ button{
   font-size:24px;
 
   line-height:1.5;
-
-  font-weight:250;
 
 }
 
@@ -312,26 +281,13 @@ button{
   #1a2030,
   #10131a);
 
-  letter-spacing:2px;
-
-  transition:.25s;
-
 }
-
-.answer-btn:hover{
-  transform:translateY(-2px);
-}
-
-/* 결과 */
 
 .result-wrap{
-
   position:relative;
-
   display:flex;
   flex-direction:column;
   align-items:center;
-
 }
 
 .result-coin{
@@ -353,8 +309,7 @@ button{
   animation:float 5s ease-in-out infinite;
 
   box-shadow:
-  0 60px 120px rgba(0,0,0,.85),
-  inset 0 1px 0 rgba(255,255,255,.08);
+  0 60px 120px rgba(0,0,0,.85);
 
 }
 
@@ -402,10 +357,6 @@ button{
 
   letter-spacing:2px;
 
-  font-weight:200;
-
-  text-align:center;
-
   z-index:2;
 
 }
@@ -438,8 +389,6 @@ button{
 
   flex-wrap:wrap;
 
-  justify-content:center;
-
 }
 
 .action-btn{
@@ -454,29 +403,11 @@ button{
   #222838,
   #141821);
 
-  letter-spacing:2px;
-
-  box-shadow:
-  0 20px 40px rgba(0,0,0,.45),
-  inset 0 1px 0 rgba(255,255,255,.06);
-
-  transition:.25s;
-
 }
-
-.action-btn:hover{
-  transform:translateY(-2px);
-}
-
-/* 등급 */
 
 .common{
 
   background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.25),
-  transparent 60%),
-
   linear-gradient(145deg,
   #4b5563,
   #111827);
@@ -486,10 +417,6 @@ button{
 .rare{
 
   background:
-  radial-gradient(circle at top,
-  rgba(180,210,255,.35),
-  transparent 60%),
-
   linear-gradient(145deg,
   #647dff,
   #111827);
@@ -499,10 +426,6 @@ button{
 .epic{
 
   background:
-  radial-gradient(circle at top,
-  rgba(210,140,255,.4),
-  transparent 60%),
-
   linear-gradient(145deg,
   #5b21b6,
   #12081f);
@@ -512,10 +435,6 @@ button{
 .legendary{
 
   background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.5),
-  transparent 60%),
-
   linear-gradient(145deg,
   #000000,
   #2a0b3f);
@@ -525,8 +444,6 @@ button{
   0 60px 120px rgba(0,0,0,.85);
 
 }
-
-/* 히스토리 */
 
 .history-title{
 
@@ -574,8 +491,6 @@ button{
 
   border-radius:50%;
 
-  position:relative;
-
   overflow:hidden;
 
   display:flex;
@@ -583,35 +498,10 @@ button{
   justify-content:center;
   align-items:center;
 
-  box-shadow:
-  0 30px 60px rgba(0,0,0,.5),
-  inset 0 1px 0 rgba(255,255,255,.08);
-
   animation:float 5s ease-in-out infinite;
 
-}
-
-.history-coin::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:180%;
-  height:180%;
-
-  top:-40%;
-  left:-40%;
-
-  background:
-  linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.1),
-    transparent
-  );
-
-  transform:rotate(25deg);
+  box-shadow:
+  0 30px 60px rgba(0,0,0,.5);
 
 }
 
@@ -622,8 +512,6 @@ button{
   letter-spacing:3px;
 
   opacity:.7;
-
-  z-index:2;
 
 }
 
@@ -639,8 +527,6 @@ button{
 
   font-size:14px;
 
-  z-index:2;
-
 }
 
 .history-date{
@@ -654,8 +540,6 @@ button{
   opacity:.45;
 
 }
-
-/* 꽃가루 */
 
 .sparkles{
 
@@ -697,22 +581,6 @@ button{
 
 }
 
-@keyframes float{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-12px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
 @media(max-width:500px){
 
   .result-coin{
@@ -725,16 +593,33 @@ button{
     height:130px;
   }
 
-  .question-text{
-    font-size:20px;
-  }
-
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- RESET -->
+
+<button onclick="resetDaily()" 
+style="
+position:fixed;
+top:20px;
+right:20px;
+z-index:9999;
+width:90px;
+height:40px;
+border-radius:999px;
+background:#ff4d6d;
+color:white;
+border:none;
+font-size:12px;
+letter-spacing:1px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+">
+RESET
+</button>
 
 <!-- 랜딩 -->
 
@@ -778,11 +663,11 @@ button{
 
     <div class="answer-wrap">
 
-      <button class="answer-btn" onclick="answer(0)">
+      <button class="answer-btn" onclick="answer()">
         NO
       </button>
 
-      <button class="answer-btn" onclick="answer(1)">
+      <button class="answer-btn" onclick="answer()">
         YES
       </button>
 
@@ -860,12 +745,7 @@ const questionPool = [
 "지금은 천천히 가고 싶다",
 "감정 소비가 커진 느낌이다",
 "회복이 필요한 느낌이다",
-"혼자 조용히 쉬고 싶다",
-"무기력한 순간이 많다",
-"아무 생각 없이 있고 싶다",
-"미래 생각이 조금 막막하다",
-"쉬는 날에도 긴장이 남아있다",
-"생각 정리가 잘 안 된다"
+"혼자 조용히 쉬고 싶다"
 
 ]
 
@@ -879,13 +759,6 @@ const coins = [
 },
 
 {
-  name:"CLOUD COIN",
-  rarity:"COMMON",
-  class:"common",
-  desc:"마음이 조금 흐려진 상태"
-},
-
-{
   name:"MOON COIN",
   rarity:"RARE",
   class:"rare",
@@ -893,24 +766,10 @@ const coins = [
 },
 
 {
-  name:"RECOVERY COIN",
-  rarity:"RARE",
-  class:"rare",
-  desc:"회복이 시작되는 상태"
-},
-
-{
   name:"CHAOS COIN",
   rarity:"EPIC",
   class:"epic",
   desc:"생각과 감정이 폭주하는 흐름"
-},
-
-{
-  name:"DREAM COIN",
-  rarity:"EPIC",
-  class:"epic",
-  desc:"현실보다 감정이 커진 상태"
 },
 
 {
@@ -1027,17 +886,17 @@ function showResult(){
   }else if(rand < 10){
 
     selected =
-    coins.filter(c=>c.rarity==="EPIC")[0]
+    coins.find(c=>c.rarity==="EPIC")
 
   }else if(rand < 30){
 
     selected =
-    coins.filter(c=>c.rarity==="RARE")[0]
+    coins.find(c=>c.rarity==="RARE")
 
   }else{
 
     selected =
-    coins.filter(c=>c.rarity==="COMMON")[0]
+    coins.find(c=>c.rarity==="COMMON")
 
   }
 
@@ -1181,15 +1040,12 @@ function renderHistory(){
     div.innerHTML =
     `
       <div class="history-coin ${item.class}">
-
         <div class="history-rarity">
           ${item.rarity}
         </div>
-
         <div class="history-name">
           ${item.name}
         </div>
-
       </div>
 
       <div class="history-date">
@@ -1266,6 +1122,15 @@ function saveCoinImage(){
     link.click()
 
   })
+
+}
+
+function resetDaily(){
+
+  localStorage.removeItem("dailyCoinDate")
+  localStorage.removeItem("todayCoin")
+
+  location.reload()
 
 }
 
