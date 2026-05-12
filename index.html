@@ -8,12 +8,14 @@
 <style>
 body {
   font-family: sans-serif;
-  background:#f3f3f3;
+  background:#f4f4f4;
   text-align:center;
   padding:20px;
 }
 
-h2 { margin-bottom:15px; }
+h2 {
+  margin-bottom:10px;
+}
 
 .circle {
   width:170px;
@@ -21,7 +23,7 @@ h2 { margin-bottom:15px; }
   margin:20px auto;
   border-radius:50%;
   background:#222;
-  color:white;
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -32,7 +34,7 @@ h2 { margin-bottom:15px; }
 }
 
 .card {
-  background:white;
+  background:#fff;
   border-radius:15px;
   padding:15px;
   margin-top:15px;
@@ -61,7 +63,7 @@ button {
 
 .start { background:#222; color:white; }
 .reset { background:#999; color:white; }
-.week { background:#555; color:white; }
+.next { background:#555; color:white; }
 .share { background:#2d6cdf; color:white; }
 
 .meta {
@@ -96,7 +98,7 @@ button {
 
 </div>
 
-<button class="week" onclick="nextWeek()">🔄 다음 주 이동</button>
+<button class="next" onclick="nextWeek()">🔄 다음 주</button>
 <button class="share" onclick="share()">📤 SNS 공유</button>
 <button class="reset" onclick="resetAll()">RESET</button>
 
@@ -129,7 +131,7 @@ function setHistory(data){
   localStorage.setItem("history", JSON.stringify(data));
 }
 
-// 코인 생성
+// START
 function startCoin(){
 
   let coins = getCoins();
@@ -203,7 +205,7 @@ function render(){
   document.getElementById("grade").innerText = "등급: " + grade(a);
 }
 
-// 다음 주 이동
+// 다음 주
 function nextWeek(){
   let coins = getCoins();
   let history = getHistory();
@@ -214,11 +216,12 @@ function nextWeek(){
 
   setHistory(history);
   setCoins([]);
+
   render();
   document.getElementById("coinBox").innerText = "START";
 }
 
-// 리셋
+// RESET
 function resetAll(){
   localStorage.removeItem("coins");
   localStorage.removeItem("history");
@@ -226,7 +229,7 @@ function resetAll(){
   document.getElementById("coinBox").innerText = "START";
 }
 
-// 공유
+// SHARE
 function share(){
 
   const coins = getCoins();
@@ -249,11 +252,6 @@ ${burnout(a)}
 }
 
 render();
-
-</script>
-
-</body>
-</html>
 
 </script>
 
