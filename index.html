@@ -23,6 +23,10 @@ body{
   overflow:hidden;
 }
 
+.hidden{
+  display:none !important;
+}
+
 .screen{
   width:100vw;
   height:100vh;
@@ -33,11 +37,8 @@ body{
   align-items:center;
 
   position:relative;
-  padding:24px;
-}
 
-.hidden{
-  display:none !important;
+  padding:24px;
 }
 
 button{
@@ -48,10 +49,15 @@ button{
   font-family:inherit;
 }
 
+/* 배경 */
+
 .bg{
+
   position:absolute;
+
   width:700px;
   height:700px;
+
   border-radius:50%;
 
   background:
@@ -62,6 +68,7 @@ button{
   filter:blur(80px);
 
   animation:bgMove 8s ease-in-out infinite;
+
 }
 
 @keyframes bgMove{
@@ -80,15 +87,20 @@ button{
 
 }
 
+/* 랜딩 */
+
 .logo{
+
   position:relative;
   z-index:2;
 
   font-size:12px;
   letter-spacing:8px;
+
   opacity:.45;
 
   margin-bottom:40px;
+
 }
 
 .hero-coin{
@@ -99,7 +111,6 @@ button{
   border-radius:50%;
 
   position:relative;
-  z-index:2;
 
   overflow:hidden;
 
@@ -121,6 +132,7 @@ button{
   inset 0 1px 0 rgba(255,255,255,.08);
 
   animation:float 5s ease-in-out infinite;
+
 }
 
 .hero-coin::before{
@@ -147,38 +159,26 @@ button{
 
 }
 
-@keyframes float{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-14px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
 .hero-text{
+
   font-size:18px;
   letter-spacing:4px;
   font-weight:200;
+
 }
 
 .sub{
+
   margin-top:40px;
 
   opacity:.55;
+
   font-size:14px;
 
-  z-index:2;
-
   text-align:center;
+
   line-height:1.5;
+
 }
 
 .start-btn{
@@ -203,12 +203,13 @@ button{
 
   transition:.25s;
 
-  z-index:2;
 }
 
 .start-btn:hover{
   transform:translateY(-2px);
 }
+
+/* 질문 */
 
 .progress{
 
@@ -218,9 +219,10 @@ button{
   width:70%;
   height:4px;
 
+  border-radius:999px;
+
   background:rgba(255,255,255,.08);
 
-  border-radius:999px;
   overflow:hidden;
 
 }
@@ -263,28 +265,14 @@ button{
 
   text-align:center;
 
-  animation:fadeUp .5s ease;
-
-}
-
-@keyframes fadeUp{
-
-  0%{
-    opacity:0;
-    transform:translateY(14px);
-  }
-
-  100%{
-    opacity:1;
-    transform:translateY(0);
-  }
-
 }
 
 .question-number{
 
   font-size:12px;
+
   letter-spacing:3px;
+
   opacity:.4;
 
 }
@@ -294,7 +282,9 @@ button{
   margin-top:28px;
 
   font-size:24px;
+
   line-height:1.5;
+
   font-weight:250;
 
 }
@@ -304,6 +294,7 @@ button{
   margin-top:40px;
 
   display:flex;
+
   gap:14px;
 
 }
@@ -311,6 +302,7 @@ button{
 .answer-btn{
 
   flex:1;
+
   height:56px;
 
   border-radius:18px;
@@ -321,7 +313,6 @@ button{
   #10131a);
 
   letter-spacing:2px;
-  font-size:13px;
 
   transition:.25s;
 
@@ -330,6 +321,8 @@ button{
 .answer-btn:hover{
   transform:translateY(-2px);
 }
+
+/* 결과 */
 
 .result-wrap{
 
@@ -357,11 +350,11 @@ button{
   justify-content:center;
   align-items:center;
 
+  animation:float 5s ease-in-out infinite;
+
   box-shadow:
   0 60px 120px rgba(0,0,0,.85),
   inset 0 1px 0 rgba(255,255,255,.08);
-
-  animation:float 5s ease-in-out infinite;
 
 }
 
@@ -389,52 +382,15 @@ button{
 
 }
 
-.sparkles{
-
-  position:absolute;
-  inset:0;
-
-  overflow:hidden;
-  pointer-events:none;
-
-}
-
-.spark{
-
-  position:absolute;
-
-  border-radius:50%;
-  background:white;
-
-  opacity:.8;
-
-  animation:sparkFloat linear infinite;
-
-}
-
-@keyframes sparkFloat{
-
-  0%{
-    transform:translateY(100px) scale(.2);
-    opacity:0;
-  }
-
-  20%{
-    opacity:1;
-  }
-
-  100%{
-    transform:translateY(-500px) scale(1);
-    opacity:0;
-  }
-
-}
-
 .result-rarity{
 
   font-size:11px;
+
   letter-spacing:5px;
+
   opacity:.7;
+
+  z-index:2;
 
 }
 
@@ -443,10 +399,14 @@ button{
   margin-top:18px;
 
   font-size:26px;
+
   letter-spacing:2px;
+
   font-weight:200;
 
   text-align:center;
+
+  z-index:2;
 
 }
 
@@ -454,14 +414,17 @@ button{
 
   margin-top:18px;
 
+  width:75%;
+
   font-size:13px;
+
   line-height:1.5;
 
   opacity:.65;
 
   text-align:center;
 
-  width:75%;
+  z-index:2;
 
 }
 
@@ -470,8 +433,11 @@ button{
   margin-top:40px;
 
   display:flex;
+
   gap:14px;
+
   flex-wrap:wrap;
+
   justify-content:center;
 
 }
@@ -502,92 +468,7 @@ button{
   transform:translateY(-2px);
 }
 
-.history-title{
-
-  font-size:14px;
-  letter-spacing:8px;
-  opacity:.55;
-
-  margin-bottom:30px;
-
-}
-
-.history-list{
-
-  width:100%;
-  max-width:420px;
-
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-
-  max-height:60vh;
-  overflow:auto;
-
-  padding:4px;
-
-}
-
-.history-card{
-
-  padding:20px;
-
-  border-radius:24px;
-
-  backdrop-filter:blur(12px);
-
-  background:
-  linear-gradient(145deg,
-  rgba(255,255,255,.06),
-  rgba(255,255,255,.02));
-
-  box-shadow:
-  0 20px 40px rgba(0,0,0,.35);
-
-}
-
-.history-date{
-
-  font-size:11px;
-  opacity:.45;
-  letter-spacing:2px;
-
-}
-
-.history-name{
-
-  margin-top:10px;
-
-  font-size:20px;
-  font-weight:200;
-
-}
-
-.history-rarity{
-
-  margin-top:10px;
-
-  font-size:11px;
-  letter-spacing:3px;
-  opacity:.65;
-
-}
-
-.common-border{
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.rare-border{
-  border:1px solid rgba(120,160,255,.45);
-}
-
-.epic-border{
-  border:1px solid rgba(190,120,255,.5);
-}
-
-.legendary-border{
-  border:1px solid rgba(255,255,255,.55);
-}
+/* 등급 */
 
 .common{
 
@@ -639,6 +520,197 @@ button{
   #000000,
   #2a0b3f);
 
+  box-shadow:
+  0 0 60px rgba(180,120,255,.4),
+  0 60px 120px rgba(0,0,0,.85);
+
+}
+
+/* 히스토리 */
+
+.history-title{
+
+  font-size:14px;
+
+  letter-spacing:8px;
+
+  opacity:.55;
+
+  margin-bottom:30px;
+
+}
+
+.history-list{
+
+  width:100%;
+  max-width:420px;
+
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:22px;
+
+  max-height:70vh;
+
+  overflow:auto;
+
+  padding:10px;
+
+}
+
+.history-item{
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+}
+
+.history-coin{
+
+  width:150px;
+  height:150px;
+
+  border-radius:50%;
+
+  position:relative;
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  box-shadow:
+  0 30px 60px rgba(0,0,0,.5),
+  inset 0 1px 0 rgba(255,255,255,.08);
+
+  animation:float 5s ease-in-out infinite;
+
+}
+
+.history-coin::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:180%;
+  height:180%;
+
+  top:-40%;
+  left:-40%;
+
+  background:
+  linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.1),
+    transparent
+  );
+
+  transform:rotate(25deg);
+
+}
+
+.history-rarity{
+
+  font-size:10px;
+
+  letter-spacing:3px;
+
+  opacity:.7;
+
+  z-index:2;
+
+}
+
+.history-name{
+
+  margin-top:10px;
+
+  width:70%;
+
+  text-align:center;
+
+  line-height:1.4;
+
+  font-size:14px;
+
+  z-index:2;
+
+}
+
+.history-date{
+
+  margin-top:12px;
+
+  font-size:10px;
+
+  letter-spacing:2px;
+
+  opacity:.45;
+
+}
+
+/* 꽃가루 */
+
+.sparkles{
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+}
+
+.spark{
+
+  position:absolute;
+
+  border-radius:50%;
+
+  background:white;
+
+  animation:sparkFloat linear infinite;
+
+}
+
+@keyframes sparkFloat{
+
+  0%{
+    transform:translateY(100px) scale(.2);
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-500px) scale(1);
+    opacity:0;
+  }
+
+}
+
+@keyframes float{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
 }
 
 @media(max-width:500px){
@@ -646,6 +718,11 @@ button{
   .result-coin{
     width:280px;
     height:280px;
+  }
+
+  .history-coin{
+    width:130px;
+    height:130px;
   }
 
   .question-text{
@@ -658,6 +735,8 @@ button{
 </head>
 
 <body>
+
+<!-- 랜딩 -->
 
 <section id="landing" class="screen">
 
@@ -682,6 +761,8 @@ button{
   </button>
 
 </section>
+
+<!-- 질문 -->
 
 <section id="quiz" class="screen hidden">
 
@@ -711,6 +792,8 @@ button{
 
 </section>
 
+<!-- 결과 -->
+
 <section id="result" class="screen hidden">
 
   <div class="result-wrap" id="captureArea">
@@ -731,7 +814,7 @@ button{
 
   <div class="result-buttons">
 
-    <button class="action-btn" onclick="saveCoin()">
+    <button class="action-btn" onclick="saveCoinImage()">
       SAVE
     </button>
 
@@ -743,13 +826,15 @@ button{
 
 </section>
 
+<!-- 히스토리 -->
+
 <section id="historyScreen" class="screen hidden">
 
   <div class="history-title">
     MY COINS
   </div>
 
-  <div id="historyList" class="history-list"></div>
+  <div class="history-list" id="historyList"></div>
 
   <button class="action-btn" onclick="closeHistory()">
     CLOSE
@@ -904,7 +989,7 @@ function renderQuestion(){
 
 }
 
-function answer(v){
+function answer(){
 
   current++
 
@@ -1048,72 +1133,6 @@ function showTodayCoin(){
 
 }
 
-function makeSparkles(rarity){
-
-  const wrap =
-  document.getElementById("sparkles")
-
-  wrap.innerHTML = ""
-
-  let count = 20
-
-  if(rarity==="RARE") count = 40
-  if(rarity==="EPIC") count = 60
-  if(rarity==="LEGENDARY") count = 100
-
-  for(let i=0;i<count;i++){
-
-    const s =
-    document.createElement("div")
-
-    s.className = "spark"
-
-    s.style.left =
-    Math.random()*100 + "%"
-
-    s.style.top =
-    Math.random()*100 + "%"
-
-    s.style.width =
-    4 + Math.random()*8 + "px"
-
-    s.style.height =
-    s.style.width
-
-    s.style.animationDuration =
-    3 + Math.random()*4 + "s"
-
-    wrap.appendChild(s)
-
-  }
-
-}
-
-function saveCoin(){
-
-  html2canvas(
-    document.getElementById("captureArea"),
-    {
-      backgroundColor:null,
-      scale:4
-    }
-  ).then(canvas=>{
-
-    const link =
-    document.createElement("a")
-
-    link.download =
-    "daily-coin.png"
-
-    link.href =
-    canvas.toDataURL()
-
-    link.click()
-
-  })
-
-}
-
 function openHistory(){
 
   document
@@ -1157,25 +1176,94 @@ function renderHistory(){
     const div =
     document.createElement("div")
 
-    div.className =
-    `history-card ${item.class}-border`
+    div.className = "history-item"
 
     div.innerHTML =
     `
+      <div class="history-coin ${item.class}">
+
+        <div class="history-rarity">
+          ${item.rarity}
+        </div>
+
+        <div class="history-name">
+          ${item.name}
+        </div>
+
+      </div>
+
       <div class="history-date">
         ${item.date}
-      </div>
-
-      <div class="history-name">
-        ${item.name}
-      </div>
-
-      <div class="history-rarity">
-        ${item.rarity}
       </div>
     `
 
     list.appendChild(div)
+
+  })
+
+}
+
+function makeSparkles(rarity){
+
+  const wrap =
+  document.getElementById("sparkles")
+
+  wrap.innerHTML = ""
+
+  let count = 20
+
+  if(rarity==="RARE") count = 40
+  if(rarity==="EPIC") count = 60
+  if(rarity==="LEGENDARY") count = 100
+
+  for(let i=0;i<count;i++){
+
+    const s =
+    document.createElement("div")
+
+    s.className = "spark"
+
+    s.style.left =
+    Math.random()*100 + "%"
+
+    s.style.top =
+    Math.random()*100 + "%"
+
+    s.style.width =
+    4 + Math.random()*8 + "px"
+
+    s.style.height =
+    s.style.width
+
+    s.style.animationDuration =
+    3 + Math.random()*4 + "s"
+
+    wrap.appendChild(s)
+
+  }
+
+}
+
+function saveCoinImage(){
+
+  html2canvas(
+    document.getElementById("captureArea"),
+    {
+      backgroundColor:null,
+      scale:4
+    }
+  ).then(canvas=>{
+
+    const link =
+    document.createElement("a")
+
+    link.download =
+    "daily-coin.png"
+
+    link.href =
+    canvas.toDataURL()
+
+    link.click()
 
   })
 
