@@ -32,7 +32,7 @@ body {
 .hidden { display: none; }
 
 /* ===================== */
-/* 🪙 METAL COIN (3D + 두께) */
+/* 🪙 COIN */
 /* ===================== */
 
 .hero-coin,
@@ -53,52 +53,48 @@ body {
     inset 0 -18px 25px rgba(0,0,0,0.15),
     0 25px 60px rgba(0,0,0,0.18);
 
+  transform: perspective(900px) rotateX(12deg);
+  animation: float 4s ease-in-out infinite;
+
   display: flex;
   justify-content: center;
   align-items: center;
-
-  transform: perspective(900px) rotateX(12deg);
-  animation: float 4s ease-in-out infinite;
   overflow: hidden;
 }
 
-/* 두께 레이어 */
+/* 두께 */
 .hero-coin::before,
 .result-coin::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
-
   background: linear-gradient(
     180deg,
     rgba(255,255,255,0.7),
     rgba(120,130,150,0.25),
     rgba(60,70,90,0.35)
   );
-
   transform: translateY(6px);
 }
 
-/* 반짝 */
+/* 빛 */
 .hero-coin::after,
 .result-coin::after {
   content: "";
   position: absolute;
   inset: 0;
-
   background: linear-gradient(
     120deg,
     transparent,
     rgba(255,255,255,0.6),
     transparent
   );
-
   transform: rotate(25deg);
   animation: shine 4s linear infinite;
 }
 
-/* 떠있는 느낌 */
+/* 애니메이션 */
 @keyframes float {
   0% { transform: perspective(900px) rotateX(12deg) translateY(0px); }
   50% { transform: perspective(900px) rotateX(12deg) translateY(-10px); }
@@ -167,25 +163,42 @@ body {
 }
 
 /* ===================== */
-/* RESULT */
+/* RESULT (🔥 핵심 수정) */
 /* ===================== */
 
 .result-coin {
   width: 280px;
   height: 280px;
+
+  /* 🔥 핵심: 세로 정렬 고정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  gap: 8px;
 }
 
-.score {
-  font-size: 52px;
+/* 텍스트 정렬 */
+#state {
+  font-size: 14px;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
+
+#score {
+  font-size: 56px;
+  font-weight: 200;
   color: #7b5cff;
 }
 
-.desc {
+#desc {
   font-size: 13px;
   opacity: 0.6;
-  margin-top: 10px;
 }
 
+/* 버튼 */
 .action {
   margin-top: 20px;
   width: 160px;
@@ -226,8 +239,8 @@ body {
 
   <div class="result-coin" id="capture">
     <div id="state"></div>
-    <div class="score" id="score"></div>
-    <div class="desc" id="desc"></div>
+    <div id="score"></div>
+    <div id="desc"></div>
   </div>
 
   <button class="action" onclick="save()">SAVE</button>
@@ -256,7 +269,7 @@ let qs = [];
 let i = 0;
 let s = 0;
 
-/* START (버튼 안정화 핵심) */
+/* START */
 function startQuiz(){
   qs = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
   i = 0;
@@ -322,7 +335,7 @@ function save(){
   });
 }
 
-/* 재시작 */
+/* 리셋 */
 function restart(){
   document.getElementById('result').classList.add('hidden');
   document.getElementById('start').classList.remove('hidden');
