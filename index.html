@@ -8,14 +8,19 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-body {
+* {
   margin: 0;
-  font-family: -apple-system, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   background: linear-gradient(135deg, #f7f5ff, #ffffff);
-  color: #333;
+  font-family: -apple-system, sans-serif;
   overflow: hidden;
 }
 
+/* 화면 */
 .screen {
   width: 100vw;
   height: 100vh;
@@ -27,25 +32,97 @@ body {
 
 .hidden { display: none; }
 
-/* START */
+/* ===================== */
+/* 🪙 COIN (핵심 업그레이드) */
+/* ===================== */
+
+.hero-coin,
+.result-coin {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  position: relative;
+
+  background: radial-gradient(circle at 30% 30%,
+    #ffffff 0%,
+    #f6f1ff 30%,
+    #d9c9ff 55%,
+    #b59cff 100%);
+
+  box-shadow:
+    inset 0 12px 25px rgba(255,255,255,0.9),
+    inset -10px -10px 25px rgba(155,93,229,0.25),
+    0 40px 90px rgba(155,93,229,0.18);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform-style: preserve-3d;
+  animation: floatCoin 4s ease-in-out infinite;
+  overflow: hidden;
+}
+
+/* 금속 빛 반사 */
+.hero-coin::before,
+.result-coin::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.7),
+    transparent
+  );
+
+  transform: rotate(25deg);
+  animation: shine 4s linear infinite;
+}
+
+/* 중앙 엠블럼 */
+.hero-coin::after,
+.result-coin::after {
+  content: "DC";
+  position: absolute;
+  font-size: 34px;
+  font-weight: 300;
+  color: rgba(155,93,229,0.75);
+  letter-spacing: 4px;
+}
+
+/* 떠있는 3D 느낌 */
+@keyframes floatCoin {
+  0% {
+    transform: translateY(0px) rotateX(10deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(10deg) rotateY(18deg);
+  }
+  100% {
+    transform: translateY(0px) rotateX(10deg) rotateY(0deg);
+  }
+}
+
+/* 빛 이동 */
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+
+/* ===================== */
+/* START 화면 */
+/* ===================== */
+
 .logo {
   font-size: 14px;
   letter-spacing: 6px;
   color: #9b5de5;
   margin-bottom: 20px;
-}
-
-.hero {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 30px 80px rgba(155,93,229,0.15);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  color: #9b5de5;
 }
 
 .start-btn {
@@ -55,9 +132,13 @@ body {
   border-radius: 999px;
   background: linear-gradient(145deg, #cdb4ff, #9b5de5);
   color: white;
+  border: none;
 }
 
-/* 질문 */
+/* ===================== */
+/* QUESTION */
+/* ===================== */
+
 .box {
   width: 85%;
   max-width: 420px;
@@ -84,23 +165,20 @@ body {
   border-radius: 14px;
   background: linear-gradient(145deg, #cdb4ff, #9b5de5);
   color: white;
+  border: none;
 }
 
-/* 결과 */
-.result {
+/* ===================== */
+/* RESULT */
+/* ===================== */
+
+.result-coin {
   width: 280px;
   height: 280px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 30px 80px rgba(155,93,229,0.15);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .score {
-  font-size: 50px;
+  font-size: 52px;
   color: #9b5de5;
 }
 
@@ -117,6 +195,7 @@ body {
   border-radius: 999px;
   background: linear-gradient(145deg, #cdb4ff, #9b5de5);
   color: white;
+  border: none;
 }
 </style>
 </head>
@@ -126,11 +205,8 @@ body {
 <!-- START -->
 <div id="start" class="screen">
   <div class="logo">DAILY COIN</div>
-  <div class="hero">TODAY</div>
-
-  <button class="start-btn" onclick="startQuiz()">
-    START
-  </button>
+  <div class="hero-coin"></div>
+  <button class="start-btn" onclick="startQuiz()">START</button>
 </div>
 
 <!-- QUIZ -->
@@ -150,7 +226,7 @@ body {
 <!-- RESULT -->
 <div id="result" class="screen hidden">
 
-  <div class="result" id="capture">
+  <div class="result-coin" id="capture">
     <div id="state"></div>
     <div class="score" id="score"></div>
     <div class="desc" id="desc"></div>
@@ -171,15 +247,15 @@ const pool = [
 "쉬고 싶었어?",
 "집중 잘 됐어?",
 "피곤했어?",
-"사람 만나기 어땠어?",
+"사람 만나는 거 어땠어?",
 "일 부담됐어?",
 "감정 기복 있었어?",
-"하루 만족해?",
 "무기력했어?",
-"긴장했어?",
 "의욕 있었어?",
+"내일 기대돼?",
+"긴장했어?",
 "휴식 필요해?",
-"내일 기대돼?"
+"하루 만족해?"
 ];
 
 let qs = [];
@@ -188,9 +264,7 @@ let s = 0;
 
 /* START */
 function startQuiz(){
-  qs = [...pool]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 15);
+  qs = [...pool].sort(() => Math.random() - 0.5).slice(0, 15);
 
   i = 0;
   s = 0;
@@ -231,7 +305,7 @@ function result(){
 
   if(percent < 40){
     state = "STABLE";
-    desc = "괜찮은 하루였어요 🌸";
+    desc = "좋은 흐름이에요 🌸";
   } else if(percent < 70){
     state = "WARNING";
     desc = "조금 쉬어가도 좋아요 ☕";
