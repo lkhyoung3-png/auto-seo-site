@@ -15,12 +15,11 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f7f5ff, #ffffff);
+  background: linear-gradient(135deg, #faf7ff, #ffffff);
   font-family: -apple-system, sans-serif;
   overflow: hidden;
 }
 
-/* 화면 */
 .screen {
   width: 100vw;
   height: 100vh;
@@ -33,7 +32,7 @@ body {
 .hidden { display: none; }
 
 /* ===================== */
-/* 🪙 COIN (핵심 업그레이드) */
+/* 🪙 METAL COIN (3D + 두께) */
 /* ===================== */
 
 .hero-coin,
@@ -45,38 +44,53 @@ body {
 
   background: radial-gradient(circle at 30% 30%,
     #ffffff 0%,
-    #f6f1ff 30%,
-    #d9c9ff 55%,
-    #b59cff 100%);
+    #eef2f7 35%,
+    #cfd6e0 65%,
+    #aab4c0 100%);
 
   box-shadow:
-    inset 0 12px 25px rgba(255,255,255,0.9),
-    inset -10px -10px 25px rgba(155,93,229,0.25),
-    0 40px 90px rgba(155,93,229,0.18);
+    inset 0 14px 22px rgba(255,255,255,0.9),
+    inset 0 -18px 25px rgba(0,0,0,0.15),
+    0 25px 60px rgba(0,0,0,0.18);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  transform-style: preserve-3d;
-  animation: floatCoin 4s ease-in-out infinite;
+  transform: perspective(900px) rotateX(12deg);
+  animation: float 4s ease-in-out infinite;
   overflow: hidden;
 }
 
-/* 금속 빛 반사 */
+/* 두께 레이어 */
 .hero-coin::before,
 .result-coin::before {
   content: "";
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  inset: 0;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.7),
+    rgba(120,130,150,0.25),
+    rgba(60,70,90,0.35)
+  );
+
+  transform: translateY(6px);
+}
+
+/* 반짝 */
+.hero-coin::after,
+.result-coin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 
   background: linear-gradient(
     120deg,
     transparent,
-    rgba(255,255,255,0.7),
+    rgba(255,255,255,0.6),
     transparent
   );
 
@@ -84,44 +98,26 @@ body {
   animation: shine 4s linear infinite;
 }
 
-/* 중앙 엠블럼 */
-.hero-coin::after,
-.result-coin::after {
-  content: "DC";
-  position: absolute;
-  font-size: 34px;
-  font-weight: 300;
-  color: rgba(155,93,229,0.75);
-  letter-spacing: 4px;
+/* 떠있는 느낌 */
+@keyframes float {
+  0% { transform: perspective(900px) rotateX(12deg) translateY(0px); }
+  50% { transform: perspective(900px) rotateX(12deg) translateY(-10px); }
+  100% { transform: perspective(900px) rotateX(12deg) translateY(0px); }
 }
 
-/* 떠있는 3D 느낌 */
-@keyframes floatCoin {
-  0% {
-    transform: translateY(0px) rotateX(10deg) rotateY(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotateX(10deg) rotateY(18deg);
-  }
-  100% {
-    transform: translateY(0px) rotateX(10deg) rotateY(0deg);
-  }
-}
-
-/* 빛 이동 */
 @keyframes shine {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  100% { transform: translateX(100%) rotate(25deg); }
+  0% { transform: translateX(-120%) rotate(25deg); }
+  100% { transform: translateX(120%) rotate(25deg); }
 }
 
 /* ===================== */
-/* START 화면 */
+/* START */
 /* ===================== */
 
 .logo {
   font-size: 14px;
   letter-spacing: 6px;
-  color: #9b5de5;
+  color: #7b5cff;
   margin-bottom: 20px;
 }
 
@@ -130,13 +126,14 @@ body {
   width: 160px;
   height: 50px;
   border-radius: 999px;
-  background: linear-gradient(145deg, #cdb4ff, #9b5de5);
+  background: linear-gradient(145deg, #b794f4, #7b5cff);
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 /* ===================== */
-/* QUESTION */
+/* QUIZ */
 /* ===================== */
 
 .box {
@@ -145,7 +142,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(155,93,229,0.1);
+  box-shadow: 0 20px 50px rgba(123,92,255,0.1);
   text-align: center;
 }
 
@@ -163,9 +160,10 @@ body {
   flex: 1;
   height: 50px;
   border-radius: 14px;
-  background: linear-gradient(145deg, #cdb4ff, #9b5de5);
+  background: linear-gradient(145deg, #b794f4, #7b5cff);
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 /* ===================== */
@@ -179,7 +177,7 @@ body {
 
 .score {
   font-size: 52px;
-  color: #9b5de5;
+  color: #7b5cff;
 }
 
 .desc {
@@ -193,9 +191,10 @@ body {
   width: 160px;
   height: 50px;
   border-radius: 999px;
-  background: linear-gradient(145deg, #cdb4ff, #9b5de5);
+  background: linear-gradient(145deg, #b794f4, #7b5cff);
   color: white;
   border: none;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -216,9 +215,8 @@ body {
     <div class="question" id="q"></div>
 
     <div class="btns">
-      <button class="btn" onclick="answer(0)">좋음</button>
-      <button class="btn" onclick="answer(1)">보통</button>
-      <button class="btn" onclick="answer(2)">힘듦</button>
+      <button class="btn" onclick="answer(0)">NO</button>
+      <button class="btn" onclick="answer(1)">YES</button>
     </div>
   </div>
 </div>
@@ -249,11 +247,7 @@ const pool = [
 "피곤했어?",
 "사람 만나는 거 어땠어?",
 "일 부담됐어?",
-"감정 기복 있었어?",
-"무기력했어?",
 "의욕 있었어?",
-"내일 기대돼?",
-"긴장했어?",
 "휴식 필요해?",
 "하루 만족해?"
 ];
@@ -262,10 +256,9 @@ let qs = [];
 let i = 0;
 let s = 0;
 
-/* START */
+/* START (버튼 안정화 핵심) */
 function startQuiz(){
-  qs = [...pool].sort(() => Math.random() - 0.5).slice(0, 15);
-
+  qs = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
   i = 0;
   s = 0;
 
@@ -277,7 +270,7 @@ function startQuiz(){
 
 /* 질문 */
 function render(){
-  document.getElementById('num').innerText = `${i+1}/15`;
+  document.getElementById('num').innerText = `${i+1}/${qs.length}`;
   document.getElementById('q').innerText = qs[i];
 }
 
@@ -298,17 +291,17 @@ function result(){
   document.getElementById('quiz').classList.add('hidden');
   document.getElementById('result').classList.remove('hidden');
 
-  const percent = Math.round((s / (qs.length*2)) * 100);
+  const percent = Math.round((s / qs.length) * 100);
 
   let state = "";
   let desc = "";
 
   if(percent < 40){
     state = "STABLE";
-    desc = "좋은 흐름이에요 🌸";
+    desc = "좋은 흐름이에요 🌿";
   } else if(percent < 70){
-    state = "WARNING";
-    desc = "조금 쉬어가도 좋아요 ☕";
+    state = "BALANCE";
+    desc = "조금 쉬어도 좋아요 ☕";
   } else {
     state = "CRITICAL";
     desc = "휴식이 필요합니다 💭";
@@ -323,13 +316,13 @@ function result(){
 function save(){
   html2canvas(document.getElementById('capture')).then(c=>{
     let a = document.createElement('a');
-    a.download = "coin.png";
+    a.download = "daily-coin.png";
     a.href = c.toDataURL();
     a.click();
   });
 }
 
-/* 리셋 */
+/* 재시작 */
 function restart(){
   document.getElementById('result').classList.add('hidden');
   document.getElementById('start').classList.remove('hidden');
