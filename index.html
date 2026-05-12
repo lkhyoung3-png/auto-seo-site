@@ -3,114 +3,108 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>직장인 주간 코인</title>
+<title>직장인 코인 START</title>
 
 <style>
-body {
-  font-family: sans-serif;
-  background:#f4f4f4;
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f5f5f5;
   text-align:center;
-  padding:20px;
 }
 
-h2 {
-  margin-bottom:10px;
+h2{
+  margin-top:30px;
 }
 
-.circle {
-  width:170px;
-  height:170px;
-  margin:20px auto;
+/* START 원형 버튼 */
+.start-circle{
+  width:160px;
+  height:160px;
   border-radius:50%;
-  background:#222;
+  background:#111;
   color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:18px;
+  margin:30px auto;
+  font-size:20px;
   font-weight:bold;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-  padding:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  cursor:pointer;
+  user-select:none;
 }
 
-.card {
+/* 카드 */
+.card{
   background:#fff;
-  border-radius:15px;
+  margin:20px;
   padding:15px;
-  margin-top:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  border-radius:15px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
-.coin {
+.coin{
   display:flex;
   justify-content:space-between;
-  padding:6px 0;
+  padding:8px 0;
   border-bottom:1px solid #eee;
   font-size:14px;
 }
 
-button {
-  width:100%;
-  max-width:320px;
+.meta{
+  margin-top:10px;
+  font-size:14px;
+  color:#333;
+}
+
+button{
+  width:80%;
+  max-width:300px;
   padding:12px;
   margin:6px auto;
   display:block;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   font-size:15px;
-  cursor:pointer;
 }
 
-.start { background:#222; color:white; }
-.reset { background:#999; color:white; }
-.next { background:#555; color:white; }
-.share { background:#2d6cdf; color:white; }
-
-.meta {
-  font-size:14px;
-  margin-top:8px;
-  color:#444;
-}
-
-.badge {
-  font-size:18px;
-  font-weight:bold;
-  margin-top:10px;
-}
+.reset{ background:#999; color:#fff; }
+.share{ background:#2d6cdf; color:#fff; }
+.next{ background:#555; color:#fff; }
 </style>
 </head>
 
 <body>
 
-<h2>🪙 직장인 주간 코인</h2>
+<h2>🪙 직장인 START 코인</h2>
 
-<div class="circle" id="coinBox">START</div>
-
-<button class="start" onclick="startCoin()">START</button>
+<div class="start-circle" onclick="makeCoin()" id="startBtn">
+START
+</div>
 
 <div class="card">
-
   <div id="list"></div>
 
   <div class="meta" id="avg"></div>
+  <div class="meta" id="grade"></div>
   <div class="meta" id="burnout"></div>
-  <div class="badge" id="grade"></div>
-
 </div>
 
-<button class="next" onclick="nextWeek()">🔄 다음 주</button>
-<button class="share" onclick="share()">📤 SNS 공유</button>
-<button class="reset" onclick="resetAll()">RESET</button>
+<button class="next" onclick="nextWeek()">다음 주 이동</button>
+<button class="share" onclick="share()">SNS 공유</button>
+<button class="reset" onclick="resetAll()">리셋</button>
 
 <script>
 
 const MAX = 5;
+
 const dayMap = ["일","월","화","수","목","금","토"];
 
 const coinsPool = [
   {name:"😎 칼퇴 성공 코인", score:95},
-  {name:"😐 버티기 성공 코인", score:70},
-  {name:"🥲 회의 생존 코인", score:60},
+  {name:"😐 무난 생존 코인", score:70},
+  {name:"🥲 버티기 코인", score:60},
   {name:"😵 야근 확정 코인", score:30},
   {name:"💀 멘탈 붕괴 코인", score:10}
 ];
@@ -123,16 +117,26 @@ function setCoins(data){
   localStorage.setItem("coins", JSON.stringify(data));
 }
 
-function getHistory(){
-  return JSON.parse(localStorage.getItem("history") || "[]");
+function avg(list){
+  if(!list.length) return 0;
+  return Math.round(list.reduce((a,b)=>a+b.score,0)/list.length);
 }
 
-function setHistory(data){
-  localStorage.setItem("history", JSON.stringify(data));
+function grade(a){
+  if(a>=85) return "🏆 S";
+  if(a>=70) return "🥇 A";
+  if(a>=50) return "🥈 B";
+  return "🥉 C";
 }
 
-// START
-function startCoin(){
+function burnout(a){
+  if(a>=80) return "🔥 안정";
+  if(a>=50) return "⚠️ 보통";
+  return "🚨 위험";
+}
+
+/* START 클릭 */
+function makeCoin(){
 
   let coins = getCoins();
 
@@ -141,14 +145,11 @@ function startCoin(){
 
   const pick = coinsPool[Math.floor(Math.random()*coinsPool.length)];
 
-  const newCoin = {
+  coins.push({
     day,
     name: pick.name,
-    score: pick.score,
-    date: now.toISOString()
-  };
-
-  coins.push(newCoin);
+    score: pick.score
+  });
 
   if(coins.length > MAX){
     coins = coins.slice(coins.length - MAX);
@@ -157,40 +158,19 @@ function startCoin(){
   setCoins(coins);
   render();
 
-  document.getElementById("coinBox").innerText = newCoin.name;
+  document.getElementById("startBtn").innerText = pick.name;
 }
 
-// 평균
-function avg(coins){
-  if(!coins.length) return 0;
-  return Math.round(coins.reduce((a,b)=>a+b.score,0)/coins.length);
-}
-
-// 번아웃
-function burnout(a){
-  if(a >= 80) return "🔥 번아웃 LOW";
-  if(a >= 50) return "⚠️ 보통";
-  return "🚨 HIGH 위험";
-}
-
-// 등급
-function grade(a){
-  if(a >= 85) return "🏆 S";
-  if(a >= 70) return "🥇 A";
-  if(a >= 50) return "🥈 B";
-  return "🥉 C";
-}
-
-// 렌더
+/* 렌더 */
 function render(){
 
   const coins = getCoins();
 
-  const list = document.getElementById("list");
-  list.innerHTML = "";
+  const box = document.getElementById("list");
+  box.innerHTML = "";
 
   coins.forEach(c=>{
-    list.innerHTML += `
+    box.innerHTML += `
       <div class="coin">
         <span>[${c.day}] ${c.name}</span>
         <span>${c.score}</span>
@@ -201,48 +181,38 @@ function render(){
   const a = avg(coins);
 
   document.getElementById("avg").innerText = "평균: " + a;
-  document.getElementById("burnout").innerText = burnout(a);
   document.getElementById("grade").innerText = "등급: " + grade(a);
+  document.getElementById("burnout").innerText = burnout(a);
 }
 
-// 다음 주
+/* 다음 주 */
 function nextWeek(){
-  let coins = getCoins();
-  let history = getHistory();
-
-  if(coins.length){
-    history.push(coins);
-  }
-
-  setHistory(history);
-  setCoins([]);
-
-  render();
-  document.getElementById("coinBox").innerText = "START";
-}
-
-// RESET
-function resetAll(){
   localStorage.removeItem("coins");
-  localStorage.removeItem("history");
   render();
-  document.getElementById("coinBox").innerText = "START";
+  document.getElementById("startBtn").innerText = "START";
 }
 
-// SHARE
+/* 리셋 */
+function resetAll(){
+  localStorage.clear();
+  render();
+  document.getElementById("startBtn").innerText = "START";
+}
+
+/* 공유 */
 function share(){
 
   const coins = getCoins();
   const a = avg(coins);
 
   const text =
-`🪙 직장인 주간 코인
+`🪙 직장인 코인
 
 평균: ${a}
 등급: ${grade(a)}
 ${burnout(a)}
 
-#직장인코인`;
+#직장인`;
 
   if(navigator.share){
     navigator.share({text});
