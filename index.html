@@ -1,35 +1,660 @@
+
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DAILY COIN</title>
 
-  <title>직장 스트레스 테스트</title>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-  <link rel="stylesheet" href="style.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #090b10;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 24px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 배경 */
+.bg-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120,120,255,0.12), transparent 70%);
+  filter: blur(40px);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* 랜딩 */
+.logo {
+  position: relative;
+  z-index: 2;
+  letter-spacing: 8px;
+  font-size: 13px;
+  opacity: 0.6;
+  margin-bottom: 42px;
+}
+
+.hero-coin {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 60%),
+    linear-gradient(145deg, #1d2230, #0a0c11);
+
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: perspective(1000px) rotateX(12deg);
+
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-coin::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.05),
+    transparent
+  );
+
+  transform: rotate(25deg);
+}
+
+.hero-text {
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: 200;
+  opacity: 0.85;
+}
+
+.sub {
+  position: relative;
+  z-index: 2;
+  margin-top: 42px;
+  font-size: 14px;
+  opacity: 0.45;
+  letter-spacing: 1px;
+}
+
+.start-btn {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 28px;
+  width: 170px;
+  height: 52px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(145deg, #232836, #151922);
+
+  color: white;
+
+  letter-spacing: 4px;
+  font-size: 12px;
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+  transition: 0.25s;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotateX(12deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(12deg);
+  }
+  100% {
+    transform: translateY(0px) rotateX(12deg);
+  }
+}
+
+/* 질문 */
+.progress {
+  position: absolute;
+  top: 70px;
+  width: 70%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7d8cff, #b8c0ff);
+  transition: 0.4s;
+}
+
+.question-box {
+  width: 100%;
+  max-width: 460px;
+
+  padding: 40px 30px;
+
+  border-radius: 30px;
+
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 60%),
+    linear-gradient(145deg, #11141c, #090b10);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+
+  text-align: center;
+
+  animation: fadeUp 0.5s ease;
+}
+
+.question-number {
+  font-size: 12px;
+  opacity: 0.45;
+  letter-spacing: 3px;
+}
+
+.question-text {
+  margin-top: 28px;
+  font-size: 24px;
+  line-height: 1.5;
+  font-weight: 250;
+}
+
+.answer-wrap {
+  margin-top: 40px;
+  display: flex;
+  gap: 14px;
+}
+
+.answer-btn {
+  flex: 1;
+  height: 56px;
+
+  border-radius: 18px;
+
+  background: linear-gradient(145deg, #1b202c, #10131a);
+
+  color: white;
+
+  font-size: 13px;
+  letter-spacing: 2px;
+
+  transition: 0.25s;
+}
+
+.answer-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, #242b3b, #131821);
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 결과 */
+#capture-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-coin {
+  width: 300px;
+  height: 300px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 60%),
+    linear-gradient(145deg, #1c2230, #0a0d12);
+
+  box-shadow:
+    0 50px 120px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transform: perspective(1000px) rotateX(12deg);
+
+  animation: resultFloat 4s ease-in-out infinite;
+}
+
+.result-coin::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.06),
+    transparent
+  );
+
+  transform: rotate(25deg);
+}
+
+@keyframes resultFloat {
+  0% { transform: translateY(0px) rotateX(12deg); }
+  50% { transform: translateY(-8px) rotateX(12deg); }
+  100% { transform: translateY(0px) rotateX(12deg); }
+}
+
+.result-title {
+  font-size: 12px;
+  letter-spacing: 5px;
+  opacity: 0.45;
+}
+
+.result-state {
+  margin-top: 18px;
+  font-size: 24px;
+  letter-spacing: 2px;
+  font-weight: 200;
+  text-align: center;
+}
+
+.result-score {
+  margin-top: 18px;
+  font-size: 58px;
+  font-weight: 100;
+}
+
+.result-desc {
+  margin-top: 16px;
+  font-size: 12px;
+  opacity: 0.55;
+  letter-spacing: 1px;
+}
+
+.result-buttons {
+  margin-top: 42px;
+  display: flex;
+  gap: 14px;
+}
+
+.action-btn {
+  width: 170px;
+  height: 52px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(145deg, #232836, #151922);
+
+  color: white;
+
+  letter-spacing: 2px;
+  font-size: 12px;
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+  transition: 0.25s;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 500px) {
+  .question-text {
+    font-size: 20px;
+  }
+
+  .result-coin {
+    width: 260px;
+    height: 260px;
+  }
+
+  .result-score {
+    font-size: 48px;
+  }
+
+  .result-buttons {
+    flex-direction: column;
+  }
+}
+</style>
 </head>
-
 <body>
 
-<div class="container">
+<!-- 랜딩 -->
+<section id="landing" class="screen">
+  <div class="bg-glow"></div>
 
-  <h1>직장 스트레스 테스트</h1>
+  <div class="logo">DAILY COIN</div>
 
-  <p class="sub">
-    당신의 현재 스트레스 상태를 분석해드립니다
-  </p>
+  <div class="hero-coin">
+    <div class="hero-text">TODAY</div>
+  </div>
 
-  <div id="quiz-box"></div>
+  <div class="sub">오늘의 감정 상태를 확인하세요</div>
 
-</div>
+  <button class="start-btn" onclick="startQuiz()">
+    START
+  </button>
+</section>
 
-<script src="questions.js"></script>
+<!-- 질문 -->
+<section id="quiz" class="screen hidden">
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <div class="progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
 
-<script src="app.js"></script>
+  <div class="question-box">
+    <div class="question-number" id="questionNumber"></div>
+
+    <div class="question-text" id="questionText"></div>
+
+    <div class="answer-wrap">
+      <button class="answer-btn" onclick="answer(0)">
+        NO
+      </button>
+
+      <button class="answer-btn" onclick="answer(1)">
+        YES
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 결과 -->
+<section id="result" class="screen hidden">
+
+  <div id="capture-area">
+    <div class="result-coin" id="coinCapture">
+      <div class="result-title">DAILY COIN</div>
+      <div class="result-state" id="resultState"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-desc" id="resultDesc"></div>
+    </div>
+  </div>
+
+  <div class="result-buttons">
+    <button class="action-btn" onclick="saveCoin()">
+      SAVE COIN
+    </button>
+
+    <button class="action-btn" onclick="restartQuiz()">
+      RETRY
+    </button>
+  </div>
+</section>
+
+<script>
+/* 질문 풀 */
+const questionPool = [
+  "출근 생각만 해도 피곤하다",
+  "업무 시작이 계속 미뤄진다",
+  "쉬어도 회복이 잘 안 된다",
+  "집중이 오래 유지되지 않는다",
+  "업무 중 자주 멍해진다",
+  "회사 사람들과 대화가 귀찮다",
+  "사소한 일에도 짜증이 늘었다",
+  "퇴근 후 완전 방전 상태다",
+  "일에 대한 의미가 잘 안 느껴진다",
+  "업무 생각이 계속 머리에 남는다",
+  "그만두고 싶다는 생각이 자주 든다",
+  "성취감보다 피로감이 더 크다",
+  "예전보다 의욕이 줄었다",
+  "미래 생각하면 막막하다",
+  "지금 일이 나와 안 맞는 느낌이다",
+  "하루가 버겁게 느껴진다",
+  "쉬는 시간에도 긴장이 유지된다",
+  "잠을 자도 개운하지 않다",
+  "사람 만나는 게 부담스럽다",
+  "작은 실수에도 예민해진다",
+  "아무것도 하기 싫은 날이 많다",
+  "에너지가 쉽게 고갈된다",
+  "감정 기복이 커진 느낌이다",
+  "일상이 반복처럼 느껴진다",
+  "혼자 있고 싶은 시간이 많아졌다",
+  "일을 생각하면 답답하다",
+  "하루가 너무 빠르게 소모된다",
+  "업무 집중력이 예전보다 줄었다",
+  "쉬고 싶다는 생각이 자주 든다",
+  "현재 상태가 만족스럽지 않다"
+]
+
+/* 코인 결과 */
+const coinResults = [
+  {
+    min: 0,
+    max: 4,
+    state: 'STABLE COIN',
+    desc: '안정적인 흐름을 유지 중입니다'
+  },
+  {
+    min: 5,
+    max: 8,
+    state: 'LIGHT FATIGUE',
+    desc: '조금 속도를 줄일 필요가 있습니다'
+  },
+  {
+    min: 9,
+    max: 12,
+    state: 'BURNOUT COIN',
+    desc: '에너지 회복이 필요한 상태입니다'
+  },
+  {
+    min: 13,
+    max: 15,
+    state: 'CRITICAL MODE',
+    desc: '충분한 휴식이 필요합니다'
+  }
+]
+
+let questions = []
+let current = 0
+let score = 0
+
+/* 오늘의 시드 */
+function getSeed() {
+  const d = new Date()
+  return d.getFullYear() + d.getMonth() + d.getDate()
+}
+
+/* 시드 셔플 */
+function seededShuffle(array, seed) {
+  const arr = [...array]
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(
+      ((Math.sin(seed + i) * 10000) % 1 + 1) % 1 * (i + 1)
+    )
+
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+
+  return arr
+}
+
+/* 질문 생성 */
+function generateQuestions() {
+  const seed = getSeed()
+  questions = seededShuffle(questionPool, seed).slice(0, 15)
+}
+
+/* 시작 */
+function startQuiz() {
+  generateQuestions()
+
+  document.getElementById('landing').classList.add('hidden')
+  document.getElementById('quiz').classList.remove('hidden')
+
+  current = 0
+  score = 0
+
+  renderQuestion()
+}
+
+/* 질문 렌더 */
+function renderQuestion() {
+  document.getElementById('questionNumber').innerText =
+    `${current + 1} / ${questions.length}`
+
+  document.getElementById('questionText').innerText =
+    questions[current]
+
+  const percent = ((current) / questions.length) * 100
+  document.getElementById('progressFill').style.width = `${percent}%`
+}
+
+/* 답변 */
+function answer(value) {
+  score += value
+  current++
+
+  if (current < questions.length) {
+    renderQuestion()
+  } else {
+    showResult()
+  }
+}
+
+/* 결과 */
+function showResult() {
+  document.getElementById('quiz').classList.add('hidden')
+  document.getElementById('result').classList.remove('hidden')
+
+  const percent = Math.round((score / questions.length) * 100)
+
+  const result = coinResults.find(r => score >= r.min && score <= r.max)
+
+  document.getElementById('resultState').innerText = result.state
+  document.getElementById('resultScore').innerText = `${percent}%`
+  document.getElementById('resultDesc').innerText = result.desc
+}
+
+/* 저장 */
+function saveCoin() {
+  const coin = document.getElementById('coinCapture')
+
+  html2canvas(coin, {
+    backgroundColor: null,
+    scale: 3
+  }).then(canvas => {
+    const link = document.createElement('a')
+    link.download = 'daily-coin.png'
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+  })
+}
+
+/* 다시하기 */
+function restartQuiz() {
+  document.getElementById('result').classList.add('hidden')
+  document.getElementById('landing').classList.remove('hidden')
+}
+</script>
 
 </body>
 </html>
+```
+
+# 🚀 사용 방법
+
+1. 메모장 열기
+2. 전체 코드 붙여넣기
+3. 파일명 `index.html`
+4. 크롬으로 열기
+
+# 🌐 배포
+
+* GitHub 업로드
+* Vercel 연결
+* Deploy
+
+하면 모바일 웹앱처럼 바로 사용 가능합니다.
+
+# 💎 포함 기능
+
+* 랜딩 화면
+* 오늘의 코인 시스템
+* 질문 15개 자동 생성
+* 날짜 기반 질문 변경
+* 원형 코인 결과 UI
+* 부드러운 애니메이션
+* PNG 저장
+* 모바일 최적화
+* SNS 공유용 구조
