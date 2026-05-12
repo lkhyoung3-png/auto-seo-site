@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>직장인 코인 START</title>
+<title>직장인 START 코인</title>
 
 <style>
 body{
@@ -15,6 +15,7 @@ body{
 
 h2{
   margin-top:30px;
+  font-size:22px;
 }
 
 /* START 원형 버튼 */
@@ -28,7 +29,7 @@ h2{
   align-items:center;
   justify-content:center;
   margin:30px auto;
-  font-size:20px;
+  font-size:18px;
   font-weight:bold;
   box-shadow:0 8px 20px rgba(0,0,0,0.2);
   cursor:pointer;
@@ -103,9 +104,9 @@ const dayMap = ["일","월","화","수","목","금","토"];
 
 const coinsPool = [
   {name:"😎 칼퇴 성공 코인", score:95},
-  {name:"😐 무난 생존 코인", score:70},
+  {name:"😐 생존 코인", score:70},
   {name:"🥲 버티기 코인", score:60},
-  {name:"😵 야근 확정 코인", score:30},
+  {name:"😵 야근 코인", score:30},
   {name:"💀 멘탈 붕괴 코인", score:10}
 ];
 
@@ -115,24 +116,6 @@ function getCoins(){
 
 function setCoins(data){
   localStorage.setItem("coins", JSON.stringify(data));
-}
-
-function avg(list){
-  if(!list.length) return 0;
-  return Math.round(list.reduce((a,b)=>a+b.score,0)/list.length);
-}
-
-function grade(a){
-  if(a>=85) return "🏆 S";
-  if(a>=70) return "🥇 A";
-  if(a>=50) return "🥈 B";
-  return "🥉 C";
-}
-
-function burnout(a){
-  if(a>=80) return "🔥 안정";
-  if(a>=50) return "⚠️ 보통";
-  return "🚨 위험";
 }
 
 /* START 클릭 */
@@ -159,6 +142,27 @@ function makeCoin(){
   render();
 
   document.getElementById("startBtn").innerText = pick.name;
+}
+
+/* 평균 */
+function avg(list){
+  if(!list.length) return 0;
+  return Math.round(list.reduce((a,b)=>a+b.score,0)/list.length);
+}
+
+/* 등급 */
+function grade(a){
+  if(a>=85) return "🏆 S";
+  if(a>=70) return "🥇 A";
+  if(a>=50) return "🥈 B";
+  return "🥉 C";
+}
+
+/* 번아웃 */
+function burnout(a){
+  if(a>=80) return "🔥 안정";
+  if(a>=50) return "⚠️ 보통";
+  return "🚨 위험";
 }
 
 /* 렌더 */
@@ -206,13 +210,13 @@ function share(){
   const a = avg(coins);
 
   const text =
-`🪙 직장인 코인
+`🪙 직장인 START 코인
 
 평균: ${a}
 등급: ${grade(a)}
 ${burnout(a)}
 
-#직장인`;
+#직장인코인`;
 
   if(navigator.share){
     navigator.share({text});
@@ -222,6 +226,11 @@ ${burnout(a)}
 }
 
 render();
+
+</script>
+
+</body>
+</html>
 
 </script>
 
