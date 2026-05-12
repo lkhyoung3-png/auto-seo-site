@@ -1,420 +1,575 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>DAILY COIN</title>
 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-body {
-  background: #090b10;
-  color: white;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow: hidden;
+body{
+  background:#090b10;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  overflow:hidden;
 }
 
-button {
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-family: inherit;
+/* 공통 */
+
+.screen{
+  width:100vw;
+  height:100vh;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  position:relative;
+  padding:24px;
 }
 
-.screen {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 24px;
+.hidden{
+  display:none;
 }
 
-.hidden {
-  display: none;
-}
-
-/* 배경 */
-.bg-glow {
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(120,120,255,0.12), transparent 70%);
-  filter: blur(40px);
-  animation: pulse 6s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.15); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 0.5; }
+button{
+  border:none;
+  outline:none;
+  cursor:pointer;
+  color:white;
+  font-family:inherit;
 }
 
 /* 랜딩 */
-.logo {
-  position: relative;
-  z-index: 2;
-  letter-spacing: 8px;
-  font-size: 13px;
-  opacity: 0.6;
-  margin-bottom: 42px;
-}
 
-.hero-coin {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
+.bg{
+  position:absolute;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  filter:blur(60px);
 
   background:
-    radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 60%),
-    linear-gradient(145deg, #1d2230, #0a0c11);
+  radial-gradient(circle,
+  rgba(130,140,255,0.18),
+  transparent 70%);
 
-  box-shadow:
-    0 40px 100px rgba(0,0,0,0.8),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  transform: perspective(1000px) rotateX(12deg);
-
-  animation: float 4s ease-in-out infinite;
+  animation:pulse 6s ease-in-out infinite;
 }
 
-.hero-coin::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
+@keyframes pulse{
+  0%{
+    transform:scale(1);
+    opacity:.5;
+  }
 
-  background: linear-gradient(
+  50%{
+    transform:scale(1.15);
+    opacity:.9;
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:.5;
+  }
+}
+
+.logo{
+  position:relative;
+  z-index:2;
+
+  letter-spacing:8px;
+  font-size:12px;
+  opacity:.5;
+
+  margin-bottom:40px;
+}
+
+.hero-coin{
+  width:230px;
+  height:230px;
+
+  border-radius:50%;
+
+  position:relative;
+  z-index:2;
+
+  overflow:hidden;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.25),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #1a2030,
+  #090c12);
+
+  box-shadow:
+  0 50px 120px rgba(0,0,0,.8),
+  inset 0 1px 0 rgba(255,255,255,.08);
+
+  animation:float 4s ease-in-out infinite;
+}
+
+.hero-coin::before{
+  content:"";
+
+  position:absolute;
+  width:180%;
+  height:180%;
+
+  top:-40%;
+  left:-40%;
+
+  background:
+  linear-gradient(
     120deg,
     transparent,
-    rgba(255,255,255,0.05),
+    rgba(255,255,255,.08),
     transparent
   );
 
-  transform: rotate(25deg);
+  transform:rotate(25deg);
 }
 
-.hero-text {
-  font-size: 18px;
-  letter-spacing: 3px;
-  font-weight: 200;
-  opacity: 0.85;
+@keyframes float{
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
 }
 
-.sub {
-  position: relative;
-  z-index: 2;
-  margin-top: 42px;
-  font-size: 14px;
-  opacity: 0.45;
-  letter-spacing: 1px;
+.hero-text{
+  font-size:18px;
+  letter-spacing:4px;
+  font-weight:200;
 }
 
-.start-btn {
-  position: relative;
-  z-index: 2;
+.sub{
+  position:relative;
+  z-index:2;
 
-  margin-top: 28px;
-  width: 170px;
-  height: 52px;
+  margin-top:40px;
 
-  border-radius: 999px;
+  font-size:14px;
+  opacity:.5;
+}
 
-  background: linear-gradient(145deg, #232836, #151922);
+.start-btn{
+  position:relative;
+  z-index:2;
 
-  color: white;
+  margin-top:30px;
 
-  letter-spacing: 4px;
-  font-size: 12px;
+  width:180px;
+  height:54px;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(145deg,
+  #222838,
+  #141821);
+
+  letter-spacing:3px;
 
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+  0 20px 40px rgba(0,0,0,.45),
+  inset 0 1px 0 rgba(255,255,255,.06);
 
-  transition: 0.25s;
+  transition:.25s;
 }
 
-.start-btn:hover {
-  transform: translateY(-2px);
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0px) rotateX(12deg);
-  }
-  50% {
-    transform: translateY(-10px) rotateX(12deg);
-  }
-  100% {
-    transform: translateY(0px) rotateX(12deg);
-  }
+.start-btn:hover{
+  transform:translateY(-2px);
 }
 
 /* 질문 */
-.progress {
-  position: absolute;
-  top: 70px;
-  width: 70%;
-  height: 4px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.06);
-  overflow: hidden;
+
+.progress{
+  position:absolute;
+  top:70px;
+
+  width:70%;
+  height:4px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
 }
 
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #7d8cff, #b8c0ff);
-  transition: 0.4s;
-}
-
-.question-box {
-  width: 100%;
-  max-width: 460px;
-
-  padding: 40px 30px;
-
-  border-radius: 30px;
+.progress-fill{
+  height:100%;
+  width:0%;
 
   background:
-    radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 60%),
-    linear-gradient(145deg, #11141c, #090b10);
+  linear-gradient(90deg,#7d8cff,#c1c7ff);
+
+  transition:.4s;
+}
+
+.question-box{
+  width:100%;
+  max-width:450px;
+
+  padding:40px 30px;
+
+  border-radius:30px;
+
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.04),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #11141c,
+  #090b10);
 
   box-shadow:
-    0 30px 80px rgba(0,0,0,0.7),
-    inset 0 1px 0 rgba(255,255,255,0.04);
+  0 30px 80px rgba(0,0,0,.7),
+  inset 0 1px 0 rgba(255,255,255,.04);
 
-  text-align: center;
+  text-align:center;
 
-  animation: fadeUp 0.5s ease;
+  animation:fadeUp .5s ease;
 }
 
-.question-number {
-  font-size: 12px;
-  opacity: 0.45;
-  letter-spacing: 3px;
-}
-
-.question-text {
-  margin-top: 28px;
-  font-size: 24px;
-  line-height: 1.5;
-  font-weight: 250;
-}
-
-.answer-wrap {
-  margin-top: 40px;
-  display: flex;
-  gap: 14px;
-}
-
-.answer-btn {
-  flex: 1;
-  height: 56px;
-
-  border-radius: 18px;
-
-  background: linear-gradient(145deg, #1b202c, #10131a);
-
-  color: white;
-
-  font-size: 13px;
-  letter-spacing: 2px;
-
-  transition: 0.25s;
-}
-
-.answer-btn:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(145deg, #242b3b, #131821);
-}
-
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(12px);
+@keyframes fadeUp{
+  0%{
+    opacity:0;
+    transform:translateY(12px);
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+
+  100%{
+    opacity:1;
+    transform:translateY(0);
   }
+}
+
+.question-number{
+  font-size:12px;
+  letter-spacing:3px;
+  opacity:.45;
+}
+
+.question-text{
+  margin-top:28px;
+
+  font-size:24px;
+  line-height:1.5;
+  font-weight:250;
+}
+
+.answer-wrap{
+  margin-top:40px;
+
+  display:flex;
+  gap:14px;
+}
+
+.answer-btn{
+  flex:1;
+  height:56px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(145deg,
+  #1a2030,
+  #10131a);
+
+  letter-spacing:2px;
+  font-size:13px;
+
+  transition:.25s;
+}
+
+.answer-btn:hover{
+  transform:translateY(-2px);
 }
 
 /* 결과 */
-#capture-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.result-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-.result-coin {
-  width: 300px;
-  height: 300px;
+.result-coin{
+  width:320px;
+  height:320px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  background:
-    radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 60%),
-    linear-gradient(145deg, #1c2230, #0a0d12);
+  position:relative;
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 
   box-shadow:
-    0 50px 120px rgba(0,0,0,0.8),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+  0 60px 120px rgba(0,0,0,.8),
+  inset 0 1px 0 rgba(255,255,255,.08);
 
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  transform: perspective(1000px) rotateX(12deg);
-
-  animation: resultFloat 4s ease-in-out infinite;
+  animation:float 4s ease-in-out infinite;
 }
 
-.result-coin::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
+.result-coin::before{
+  content:"";
 
-  background: linear-gradient(
+  position:absolute;
+
+  width:180%;
+  height:180%;
+
+  top:-40%;
+  left:-40%;
+
+  background:
+  linear-gradient(
     120deg,
     transparent,
-    rgba(255,255,255,0.06),
+    rgba(255,255,255,.08),
     transparent
   );
 
-  transform: rotate(25deg);
+  transform:rotate(25deg);
 }
 
-@keyframes resultFloat {
-  0% { transform: translateY(0px) rotateX(12deg); }
-  50% { transform: translateY(-8px) rotateX(12deg); }
-  100% { transform: translateY(0px) rotateX(12deg); }
+.result-title{
+  font-size:12px;
+  letter-spacing:5px;
+  opacity:.45;
 }
 
-.result-title {
-  font-size: 12px;
-  letter-spacing: 5px;
-  opacity: 0.45;
+.result-state{
+  margin-top:18px;
+
+  font-size:24px;
+  font-weight:200;
+  letter-spacing:2px;
+
+  text-align:center;
 }
 
-.result-state {
-  margin-top: 18px;
-  font-size: 24px;
-  letter-spacing: 2px;
-  font-weight: 200;
-  text-align: center;
+.result-score{
+  margin-top:16px;
+
+  font-size:58px;
+  font-weight:100;
 }
 
-.result-score {
-  margin-top: 18px;
-  font-size: 58px;
-  font-weight: 100;
+.result-desc{
+  margin-top:18px;
+
+  font-size:13px;
+  opacity:.6;
+
+  text-align:center;
+  line-height:1.5;
 }
 
-.result-desc {
-  margin-top: 16px;
-  font-size: 12px;
-  opacity: 0.55;
-  letter-spacing: 1px;
+.result-buttons{
+  margin-top:40px;
+
+  display:flex;
+  gap:14px;
 }
 
-.result-buttons {
-  margin-top: 42px;
-  display: flex;
-  gap: 14px;
-}
+.action-btn{
+  width:170px;
+  height:52px;
 
-.action-btn {
-  width: 170px;
-  height: 52px;
+  border-radius:999px;
 
-  border-radius: 999px;
+  background:
+  linear-gradient(145deg,
+  #222838,
+  #141821);
 
-  background: linear-gradient(145deg, #232836, #151922);
-
-  color: white;
-
-  letter-spacing: 2px;
-  font-size: 12px;
+  letter-spacing:2px;
 
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+  0 20px 40px rgba(0,0,0,.45),
+  inset 0 1px 0 rgba(255,255,255,.06);
 
-  transition: 0.25s;
+  transition:.25s;
 }
 
-.action-btn:hover {
-  transform: translateY(-2px);
+.action-btn:hover{
+  transform:translateY(-2px);
 }
 
-@media (max-width: 500px) {
-  .question-text {
-    font-size: 20px;
-  }
+/* 코인 테마 */
 
-  .result-coin {
-    width: 260px;
-    height: 260px;
-  }
+.moon{
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.28),
+  transparent 60%),
 
-  .result-score {
-    font-size: 48px;
-  }
-
-  .result-buttons {
-    flex-direction: column;
-  }
+  linear-gradient(145deg,
+  #6d7cff,
+  #111827);
 }
+
+.calm{
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.35),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #dfe7ff,
+  #6b7280);
+}
+
+.burnout{
+  background:
+  radial-gradient(circle at top,
+  rgba(255,120,120,.3),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #3a0d0d,
+  #090909);
+}
+
+.chaos{
+  background:
+  radial-gradient(circle at top,
+  rgba(180,120,255,.3),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #27113f,
+  #0b0811);
+}
+
+.cloud{
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.22),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #6b7280,
+  #1f2937);
+}
+
+.focus{
+  background:
+  radial-gradient(circle at top,
+  rgba(120,220,255,.25),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #123447,
+  #081018);
+}
+
+.recovery{
+  background:
+  radial-gradient(circle at top,
+  rgba(170,255,220,.28),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #173a31,
+  #09100d);
+}
+
+.silent{
+  background:
+  radial-gradient(circle at top,
+  rgba(255,255,255,.18),
+  transparent 60%),
+
+  linear-gradient(145deg,
+  #1f2937,
+  #090b10);
+}
+
+@media(max-width:500px){
+
+  .question-text{
+    font-size:20px;
+  }
+
+  .result-coin{
+    width:270px;
+    height:270px;
+  }
+
+  .result-score{
+    font-size:48px;
+  }
+
+  .result-buttons{
+    flex-direction:column;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <!-- 랜딩 -->
+
 <section id="landing" class="screen">
-  <div class="bg-glow"></div>
 
-  <div class="logo">DAILY COIN</div>
+  <div class="bg"></div>
 
-  <div class="hero-coin">
-    <div class="hero-text">TODAY</div>
+  <div class="logo">
+    DAILY COIN
   </div>
 
-  <div class="sub">오늘의 감정 상태를 확인하세요</div>
+  <div class="hero-coin">
+    <div class="hero-text">
+      TODAY
+    </div>
+  </div>
+
+  <div class="sub">
+    오늘의 감정 상태를 확인하세요
+  </div>
 
   <button class="start-btn" onclick="startQuiz()">
     START
   </button>
+
 </section>
 
 <!-- 질문 -->
+
 <section id="quiz" class="screen hidden">
 
   <div class="progress">
@@ -422,11 +577,13 @@ button {
   </div>
 
   <div class="question-box">
+
     <div class="question-number" id="questionNumber"></div>
 
     <div class="question-text" id="questionText"></div>
 
     <div class="answer-wrap">
+
       <button class="answer-btn" onclick="answer(0)">
         NO
       </button>
@@ -434,23 +591,37 @@ button {
       <button class="answer-btn" onclick="answer(1)">
         YES
       </button>
+
     </div>
+
   </div>
+
 </section>
 
 <!-- 결과 -->
+
 <section id="result" class="screen hidden">
 
-  <div id="capture-area">
-    <div class="result-coin" id="coinCapture">
-      <div class="result-title">DAILY COIN</div>
+  <div class="result-wrap" id="captureArea">
+
+    <div class="result-coin" id="resultCoin">
+
+      <div class="result-title">
+        DAILY COIN
+      </div>
+
       <div class="result-state" id="resultState"></div>
+
       <div class="result-score" id="resultScore"></div>
+
       <div class="result-desc" id="resultDesc"></div>
+
     </div>
+
   </div>
 
   <div class="result-buttons">
+
     <button class="action-btn" onclick="saveCoin()">
       SAVE COIN
     </button>
@@ -458,203 +629,294 @@ button {
     <button class="action-btn" onclick="restartQuiz()">
       RETRY
     </button>
+
   </div>
+
 </section>
 
 <script>
-/* 질문 풀 */
+
+/* 질문 */
+
 const questionPool = [
-  "출근 생각만 해도 피곤하다",
-  "업무 시작이 계속 미뤄진다",
-  "쉬어도 회복이 잘 안 된다",
-  "집중이 오래 유지되지 않는다",
-  "업무 중 자주 멍해진다",
-  "회사 사람들과 대화가 귀찮다",
-  "사소한 일에도 짜증이 늘었다",
-  "퇴근 후 완전 방전 상태다",
-  "일에 대한 의미가 잘 안 느껴진다",
-  "업무 생각이 계속 머리에 남는다",
-  "그만두고 싶다는 생각이 자주 든다",
-  "성취감보다 피로감이 더 크다",
-  "예전보다 의욕이 줄었다",
-  "미래 생각하면 막막하다",
-  "지금 일이 나와 안 맞는 느낌이다",
-  "하루가 버겁게 느껴진다",
-  "쉬는 시간에도 긴장이 유지된다",
-  "잠을 자도 개운하지 않다",
-  "사람 만나는 게 부담스럽다",
-  "작은 실수에도 예민해진다",
-  "아무것도 하기 싫은 날이 많다",
-  "에너지가 쉽게 고갈된다",
-  "감정 기복이 커진 느낌이다",
-  "일상이 반복처럼 느껴진다",
-  "혼자 있고 싶은 시간이 많아졌다",
-  "일을 생각하면 답답하다",
-  "하루가 너무 빠르게 소모된다",
-  "업무 집중력이 예전보다 줄었다",
-  "쉬고 싶다는 생각이 자주 든다",
-  "현재 상태가 만족스럽지 않다"
+
+"출근 생각만 해도 피곤하다",
+"업무 시작이 자꾸 늦어진다",
+"요즘 집중이 잘 안 된다",
+"쉬어도 회복이 느리다",
+"혼자 있고 싶은 날이 많다",
+"업무가 버겁게 느껴진다",
+"사람들과 대화가 귀찮다",
+"생각이 너무 많아진다",
+"자꾸 멍해지는 순간이 있다",
+"예전보다 의욕이 줄었다",
+"잠을 자도 개운하지 않다",
+"하루가 너무 빨리 소모된다",
+"감정 기복이 심해진 느낌이다",
+"지금 모든 걸 멈추고 싶다",
+"작은 일에도 쉽게 지친다",
+"일상이 반복처럼 느껴진다",
+"회복이 필요한 느낌이다",
+"혼자 조용히 쉬고 싶다",
+"무기력한 순간이 많다",
+"아무 생각 없이 있고 싶다",
+"미래 생각이 조금 막막하다",
+"쉬는 날에도 긴장이 남아있다",
+"감정 소비가 커진 느낌이다",
+"지금은 천천히 가고 싶다",
+"생각 정리가 잘 안 된다"
+
 ]
 
-/* 코인 결과 */
-const coinResults = [
-  {
-    min: 0,
-    max: 4,
-    state: 'STABLE COIN',
-    desc: '안정적인 흐름을 유지 중입니다'
-  },
-  {
-    min: 5,
-    max: 8,
-    state: 'LIGHT FATIGUE',
-    desc: '조금 속도를 줄일 필요가 있습니다'
-  },
-  {
-    min: 9,
-    max: 12,
-    state: 'BURNOUT COIN',
-    desc: '에너지 회복이 필요한 상태입니다'
-  },
-  {
-    min: 13,
-    max: 15,
-    state: 'CRITICAL MODE',
-    desc: '충분한 휴식이 필요합니다'
-  }
+/* 코인 */
+
+const coinTypes = [
+
+{
+  name:"MOON COIN",
+  class:"moon",
+  desc:"생각이 많아지는 새벽 감성의 상태"
+},
+
+{
+  name:"CALM COIN",
+  class:"calm",
+  desc:"잔잔하게 균형이 유지되는 흐름"
+},
+
+{
+  name:"BURNOUT COIN",
+  class:"burnout",
+  desc:"에너지가 거의 소진된 상태"
+},
+
+{
+  name:"CHAOS COIN",
+  class:"chaos",
+  desc:"생각과 일정이 뒤엉킨 흐름"
+},
+
+{
+  name:"CLOUD COIN",
+  class:"cloud",
+  desc:"마음이 조금 흐려진 상태"
+},
+
+{
+  name:"FOCUS COIN",
+  class:"focus",
+  desc:"집중 흐름이 강해진 상태"
+},
+
+{
+  name:"RECOVERY COIN",
+  class:"recovery",
+  desc:"조금씩 회복이 시작되는 상태"
+},
+
+{
+  name:"SILENT COIN",
+  class:"silent",
+  desc:"혼자만의 시간이 필요한 상태"
+}
+
 ]
 
 let questions = []
 let current = 0
 let score = 0
 
-/* 오늘의 시드 */
-function getSeed() {
+/* 시드 */
+
+function getSeed(){
+
   const d = new Date()
-  return d.getFullYear() + d.getMonth() + d.getDate()
+
+  return d.getFullYear()
+  + d.getMonth()
+  + d.getDate()
+
 }
 
 /* 시드 셔플 */
-function seededShuffle(array, seed) {
+
+function seededShuffle(array, seed){
+
   const arr = [...array]
 
-  for (let i = arr.length - 1; i > 0; i--) {
+  for(let i = arr.length - 1; i > 0; i--){
+
     const j = Math.floor(
       ((Math.sin(seed + i) * 10000) % 1 + 1) % 1 * (i + 1)
     )
 
     ;[arr[i], arr[j]] = [arr[j], arr[i]]
+
   }
 
   return arr
+
 }
 
 /* 질문 생성 */
-function generateQuestions() {
-  const seed = getSeed()
-  questions = seededShuffle(questionPool, seed).slice(0, 15)
+
+function generateQuestions(){
+
+  questions =
+  seededShuffle(questionPool, getSeed())
+  .slice(0,15)
+
 }
 
 /* 시작 */
-function startQuiz() {
-  generateQuestions()
 
-  document.getElementById('landing').classList.add('hidden')
-  document.getElementById('quiz').classList.remove('hidden')
+function startQuiz(){
+
+  generateQuestions()
 
   current = 0
   score = 0
 
+  document
+  .getElementById('landing')
+  .classList.add('hidden')
+
+  document
+  .getElementById('quiz')
+  .classList.remove('hidden')
+
   renderQuestion()
+
 }
 
-/* 질문 렌더 */
-function renderQuestion() {
-  document.getElementById('questionNumber').innerText =
-    `${current + 1} / ${questions.length}`
+/* 렌더 */
 
-  document.getElementById('questionText').innerText =
-    questions[current]
+function renderQuestion(){
 
-  const percent = ((current) / questions.length) * 100
-  document.getElementById('progressFill').style.width = `${percent}%`
+  document
+  .getElementById('questionNumber')
+  .innerText =
+  `${current + 1} / ${questions.length}`
+
+  document
+  .getElementById('questionText')
+  .innerText =
+  questions[current]
+
+  const percent =
+  (current / questions.length) * 100
+
+  document
+  .getElementById('progressFill')
+  .style.width =
+  `${percent}%`
+
 }
 
 /* 답변 */
-function answer(value) {
+
+function answer(value){
+
   score += value
   current++
 
-  if (current < questions.length) {
+  if(current < questions.length){
+
     renderQuestion()
-  } else {
+
+  }else{
+
     showResult()
+
   }
+
 }
 
 /* 결과 */
-function showResult() {
-  document.getElementById('quiz').classList.add('hidden')
-  document.getElementById('result').classList.remove('hidden')
 
-  const percent = Math.round((score / questions.length) * 100)
+function showResult(){
 
-  const result = coinResults.find(r => score >= r.min && score <= r.max)
+  document
+  .getElementById('quiz')
+  .classList.add('hidden')
 
-  document.getElementById('resultState').innerText = result.state
-  document.getElementById('resultScore').innerText = `${percent}%`
-  document.getElementById('resultDesc').innerText = result.desc
+  document
+  .getElementById('result')
+  .classList.remove('hidden')
+
+  const percent =
+  Math.round((score / questions.length) * 100)
+
+  const result =
+  coinTypes[
+    (score + getSeed()) % coinTypes.length
+  ]
+
+  const coin =
+  document.getElementById('resultCoin')
+
+  coin.className =
+  `result-coin ${result.class}`
+
+  document
+  .getElementById('resultState')
+  .innerText =
+  result.name
+
+  document
+  .getElementById('resultScore')
+  .innerText =
+  `${percent}%`
+
+  document
+  .getElementById('resultDesc')
+  .innerText =
+  result.desc
+
 }
 
 /* 저장 */
-function saveCoin() {
-  const coin = document.getElementById('coinCapture')
 
-  html2canvas(coin, {
-    backgroundColor: null,
-    scale: 3
-  }).then(canvas => {
-    const link = document.createElement('a')
-    link.download = 'daily-coin.png'
-    link.href = canvas.toDataURL('image/png')
+function saveCoin(){
+
+  html2canvas(
+    document.getElementById('captureArea'),
+    {
+      backgroundColor:null,
+      scale:4
+    }
+  ).then(canvas=>{
+
+    const link =
+    document.createElement('a')
+
+    link.download =
+    'daily-coin.png'
+
+    link.href =
+    canvas.toDataURL()
+
     link.click()
+
   })
+
 }
 
-/* 다시하기 */
-function restartQuiz() {
-  document.getElementById('result').classList.add('hidden')
-  document.getElementById('landing').classList.remove('hidden')
+/* 다시 */
+
+function restartQuiz(){
+
+  document
+  .getElementById('result')
+  .classList.add('hidden')
+
+  document
+  .getElementById('landing')
+  .classList.remove('hidden')
+
 }
+
 </script>
 
 </body>
 </html>
-```
-
-# 🚀 사용 방법
-
-1. 메모장 열기
-2. 전체 코드 붙여넣기
-3. 파일명 `index.html`
-4. 크롬으로 열기
-
-# 🌐 배포
-
-* GitHub 업로드
-* Vercel 연결
-* Deploy
-
-하면 모바일 웹앱처럼 바로 사용 가능합니다.
-
-# 💎 포함 기능
-
-* 랜딩 화면
-* 오늘의 코인 시스템
-* 질문 15개 자동 생성
-* 날짜 기반 질문 변경
-* 원형 코인 결과 UI
-* 부드러운 애니메이션
-* PNG 저장
-* 모바일 최적화
-* SNS 공유용 구조
