@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>DAILY COIN</title>
 
@@ -17,7 +17,7 @@
 }
 
 body{
-  background:#090b10;
+  background:#07090d;
   color:white;
   font-family:-apple-system,BlinkMacSystemFont,sans-serif;
   overflow:hidden;
@@ -50,54 +50,57 @@ button{
   font-family:inherit;
 }
 
-/* 랜딩 */
+/* 배경 */
 
 .bg{
   position:absolute;
-  width:500px;
-  height:500px;
+  width:700px;
+  height:700px;
   border-radius:50%;
-  filter:blur(60px);
 
   background:
   radial-gradient(circle,
-  rgba(130,140,255,0.18),
+  rgba(120,140,255,.18),
   transparent 70%);
 
-  animation:pulse 6s ease-in-out infinite;
+  filter:blur(80px);
+
+  animation:bgMove 8s ease-in-out infinite;
 }
 
-@keyframes pulse{
+@keyframes bgMove{
+
   0%{
     transform:scale(1);
-    opacity:.5;
   }
 
   50%{
-    transform:scale(1.15);
-    opacity:.9;
+    transform:scale(1.1);
   }
 
   100%{
     transform:scale(1);
-    opacity:.5;
   }
+
 }
+
+/* 랜딩 */
 
 .logo{
   position:relative;
   z-index:2;
 
-  letter-spacing:8px;
   font-size:12px;
-  opacity:.5;
+  letter-spacing:8px;
+  opacity:.45;
 
   margin-bottom:40px;
 }
 
 .hero-coin{
-  width:230px;
-  height:230px;
+
+  width:240px;
+  height:240px;
 
   border-radius:50%;
 
@@ -112,24 +115,26 @@ button{
 
   background:
   radial-gradient(circle at top,
-  rgba(255,255,255,.25),
+  rgba(255,255,255,.35),
   transparent 60%),
 
   linear-gradient(145deg,
-  #1a2030,
-  #090c12);
+  #1d2433,
+  #0b0d12);
 
   box-shadow:
-  0 50px 120px rgba(0,0,0,.8),
+  0 60px 120px rgba(0,0,0,.8),
   inset 0 1px 0 rgba(255,255,255,.08);
 
-  animation:float 4s ease-in-out infinite;
+  animation:float 5s ease-in-out infinite;
 }
 
 .hero-coin::before{
+
   content:"";
 
   position:absolute;
+
   width:180%;
   height:180%;
 
@@ -145,20 +150,23 @@ button{
   );
 
   transform:rotate(25deg);
+
 }
 
 @keyframes float{
+
   0%{
     transform:translateY(0px);
   }
 
   50%{
-    transform:translateY(-12px);
+    transform:translateY(-14px);
   }
 
   100%{
     transform:translateY(0px);
   }
+
 }
 
 .hero-text{
@@ -168,38 +176,37 @@ button{
 }
 
 .sub{
-  position:relative;
-  z-index:2;
-
   margin-top:40px;
 
+  opacity:.55;
   font-size:14px;
-  opacity:.5;
+
+  z-index:2;
 }
 
 .start-btn{
-  position:relative;
-  z-index:2;
 
-  margin-top:30px;
+  margin-top:28px;
 
   width:180px;
-  height:54px;
+  height:56px;
 
   border-radius:999px;
 
   background:
   linear-gradient(145deg,
-  #222838,
+  #232838,
   #141821);
 
   letter-spacing:3px;
 
   box-shadow:
-  0 20px 40px rgba(0,0,0,.45),
+  0 20px 50px rgba(0,0,0,.45),
   inset 0 1px 0 rgba(255,255,255,.06);
 
   transition:.25s;
+
+  z-index:2;
 }
 
 .start-btn:hover{
@@ -209,35 +216,42 @@ button{
 /* 질문 */
 
 .progress{
+
   position:absolute;
   top:70px;
 
   width:70%;
   height:4px;
 
-  border-radius:999px;
-
   background:rgba(255,255,255,.08);
+
+  border-radius:999px;
   overflow:hidden;
+
 }
 
 .progress-fill{
-  height:100%;
+
   width:0%;
+  height:100%;
 
   background:
-  linear-gradient(90deg,#7d8cff,#c1c7ff);
+  linear-gradient(90deg,
+  #9ea8ff,
+  #ffffff);
 
-  transition:.4s;
+  transition:.35s;
+
 }
 
 .question-box{
+
   width:100%;
   max-width:450px;
 
-  padding:40px 30px;
+  padding:42px 30px;
 
-  border-radius:30px;
+  border-radius:32px;
 
   background:
   radial-gradient(circle at top,
@@ -255,42 +269,52 @@ button{
   text-align:center;
 
   animation:fadeUp .5s ease;
+
 }
 
 @keyframes fadeUp{
+
   0%{
     opacity:0;
-    transform:translateY(12px);
+    transform:translateY(14px);
   }
 
   100%{
     opacity:1;
     transform:translateY(0);
   }
+
 }
 
 .question-number{
+
   font-size:12px;
   letter-spacing:3px;
-  opacity:.45;
+  opacity:.4;
+
 }
 
 .question-text{
+
   margin-top:28px;
 
   font-size:24px;
   line-height:1.5;
   font-weight:250;
+
 }
 
 .answer-wrap{
+
   margin-top:40px;
 
   display:flex;
   gap:14px;
+
 }
 
 .answer-btn{
+
   flex:1;
   height:56px;
 
@@ -305,6 +329,7 @@ button{
   font-size:13px;
 
   transition:.25s;
+
 }
 
 .answer-btn:hover{
@@ -314,18 +339,24 @@ button{
 /* 결과 */
 
 .result-wrap{
+
+  position:relative;
+
   display:flex;
   flex-direction:column;
   align-items:center;
+
 }
 
 .result-coin{
+
   width:320px;
   height:320px;
 
   border-radius:50%;
 
   position:relative;
+
   overflow:hidden;
 
   display:flex;
@@ -334,13 +365,15 @@ button{
   align-items:center;
 
   box-shadow:
-  0 60px 120px rgba(0,0,0,.8),
+  0 60px 120px rgba(0,0,0,.85),
   inset 0 1px 0 rgba(255,255,255,.08);
 
-  animation:float 4s ease-in-out infinite;
+  animation:float 5s ease-in-out infinite;
+
 }
 
 .result-coin::before{
+
   content:"";
 
   position:absolute;
@@ -355,54 +388,107 @@ button{
   linear-gradient(
     120deg,
     transparent,
-    rgba(255,255,255,.08),
+    rgba(255,255,255,.12),
     transparent
   );
 
   transform:rotate(25deg);
+
 }
 
-.result-title{
-  font-size:12px;
+/* 꽃가루 */
+
+.sparkles{
+
+  position:absolute;
+  inset:0;
+
+  overflow:hidden;
+  pointer-events:none;
+
+}
+
+.spark{
+
+  position:absolute;
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:white;
+
+  opacity:.8;
+
+  animation:sparkFloat linear infinite;
+
+}
+
+@keyframes sparkFloat{
+
+  0%{
+    transform:translateY(100px) scale(.2);
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-500px) scale(1);
+    opacity:0;
+  }
+
+}
+
+.result-rarity{
+
+  font-size:11px;
   letter-spacing:5px;
-  opacity:.45;
+  opacity:.7;
+
 }
 
-.result-state{
+.result-name{
+
   margin-top:18px;
 
-  font-size:24px;
-  font-weight:200;
+  font-size:26px;
   letter-spacing:2px;
+  font-weight:200;
 
   text-align:center;
-}
 
-.result-score{
-  margin-top:16px;
-
-  font-size:58px;
-  font-weight:100;
 }
 
 .result-desc{
+
   margin-top:18px;
 
   font-size:13px;
-  opacity:.6;
+  line-height:1.5;
+
+  opacity:.65;
 
   text-align:center;
-  line-height:1.5;
+
+  width:75%;
+
 }
 
 .result-buttons{
+
   margin-top:40px;
 
   display:flex;
   gap:14px;
+
 }
 
 .action-btn{
+
   width:170px;
   height:52px;
 
@@ -420,115 +506,80 @@ button{
   inset 0 1px 0 rgba(255,255,255,.06);
 
   transition:.25s;
+
 }
 
 .action-btn:hover{
   transform:translateY(-2px);
 }
 
-/* 코인 테마 */
+/* 등급별 */
 
-.moon{
+.common{
+
   background:
   radial-gradient(circle at top,
-  rgba(255,255,255,.28),
+  rgba(255,255,255,.25),
   transparent 60%),
 
   linear-gradient(145deg,
-  #6d7cff,
+  #4b5563,
   #111827);
+
 }
 
-.calm{
+.rare{
+
   background:
   radial-gradient(circle at top,
-  rgba(255,255,255,.35),
+  rgba(180,210,255,.35),
   transparent 60%),
 
   linear-gradient(145deg,
-  #dfe7ff,
-  #6b7280);
+  #647dff,
+  #111827);
+
 }
 
-.burnout{
+.epic{
+
   background:
   radial-gradient(circle at top,
-  rgba(255,120,120,.3),
+  rgba(210,140,255,.4),
   transparent 60%),
 
   linear-gradient(145deg,
-  #3a0d0d,
-  #090909);
+  #5b21b6,
+  #12081f);
+
 }
 
-.chaos{
+.legendary{
+
   background:
   radial-gradient(circle at top,
-  rgba(180,120,255,.3),
+  rgba(255,255,255,.5),
   transparent 60%),
 
   linear-gradient(145deg,
-  #27113f,
-  #0b0811);
-}
+  #000000,
+  #2a0b3f);
 
-.cloud{
-  background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.22),
-  transparent 60%),
+  box-shadow:
+  0 0 60px rgba(180,120,255,.4),
+  0 60px 120px rgba(0,0,0,.85);
 
-  linear-gradient(145deg,
-  #6b7280,
-  #1f2937);
-}
-
-.focus{
-  background:
-  radial-gradient(circle at top,
-  rgba(120,220,255,.25),
-  transparent 60%),
-
-  linear-gradient(145deg,
-  #123447,
-  #081018);
-}
-
-.recovery{
-  background:
-  radial-gradient(circle at top,
-  rgba(170,255,220,.28),
-  transparent 60%),
-
-  linear-gradient(145deg,
-  #173a31,
-  #09100d);
-}
-
-.silent{
-  background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.18),
-  transparent 60%),
-
-  linear-gradient(145deg,
-  #1f2937,
-  #090b10);
 }
 
 @media(max-width:500px){
 
+  .result-coin{
+    width:280px;
+    height:280px;
+  }
+
   .question-text{
     font-size:20px;
-  }
-
-  .result-coin{
-    width:270px;
-    height:270px;
-  }
-
-  .result-score{
-    font-size:48px;
   }
 
   .result-buttons{
@@ -553,13 +604,15 @@ button{
   </div>
 
   <div class="hero-coin">
+
     <div class="hero-text">
       TODAY
     </div>
+
   </div>
 
   <div class="sub">
-    오늘의 감정 상태를 확인하세요
+    오늘의 감정 코인을 획득하세요
   </div>
 
   <button class="start-btn" onclick="startQuiz()">
@@ -604,15 +657,13 @@ button{
 
   <div class="result-wrap" id="captureArea">
 
+    <div class="sparkles" id="sparkles"></div>
+
     <div class="result-coin" id="resultCoin">
 
-      <div class="result-title">
-        DAILY COIN
-      </div>
+      <div class="result-rarity" id="resultRarity"></div>
 
-      <div class="result-state" id="resultState"></div>
-
-      <div class="result-score" id="resultScore"></div>
+      <div class="result-name" id="resultName"></div>
 
       <div class="result-desc" id="resultDesc"></div>
 
@@ -623,7 +674,7 @@ button{
   <div class="result-buttons">
 
     <button class="action-btn" onclick="saveCoin()">
-      SAVE COIN
+      SAVE
     </button>
 
     <button class="action-btn" onclick="restartQuiz()">
@@ -641,83 +692,79 @@ button{
 const questionPool = [
 
 "출근 생각만 해도 피곤하다",
-"업무 시작이 자꾸 늦어진다",
-"요즘 집중이 잘 안 된다",
-"쉬어도 회복이 느리다",
 "혼자 있고 싶은 날이 많다",
-"업무가 버겁게 느껴진다",
+"쉬어도 회복이 느리다",
+"감정 기복이 심해진 느낌이다",
 "사람들과 대화가 귀찮다",
 "생각이 너무 많아진다",
 "자꾸 멍해지는 순간이 있다",
+"업무가 버겁게 느껴진다",
 "예전보다 의욕이 줄었다",
-"잠을 자도 개운하지 않다",
 "하루가 너무 빨리 소모된다",
-"감정 기복이 심해진 느낌이다",
-"지금 모든 걸 멈추고 싶다",
-"작은 일에도 쉽게 지친다",
-"일상이 반복처럼 느껴진다",
+"잠을 자도 개운하지 않다",
+"지금은 천천히 가고 싶다",
+"감정 소비가 커진 느낌이다",
 "회복이 필요한 느낌이다",
 "혼자 조용히 쉬고 싶다",
 "무기력한 순간이 많다",
 "아무 생각 없이 있고 싶다",
 "미래 생각이 조금 막막하다",
 "쉬는 날에도 긴장이 남아있다",
-"감정 소비가 커진 느낌이다",
-"지금은 천천히 가고 싶다",
 "생각 정리가 잘 안 된다"
 
 ]
 
 /* 코인 */
 
-const coinTypes = [
+const coins = [
 
 {
-  name:"MOON COIN",
-  class:"moon",
-  desc:"생각이 많아지는 새벽 감성의 상태"
-},
-
-{
-  name:"CALM COIN",
-  class:"calm",
-  desc:"잔잔하게 균형이 유지되는 흐름"
-},
-
-{
-  name:"BURNOUT COIN",
-  class:"burnout",
-  desc:"에너지가 거의 소진된 상태"
-},
-
-{
-  name:"CHAOS COIN",
-  class:"chaos",
-  desc:"생각과 일정이 뒤엉킨 흐름"
+  name:"SILENT COIN",
+  rarity:"COMMON",
+  class:"common",
+  desc:"혼자만의 시간이 필요한 상태"
 },
 
 {
   name:"CLOUD COIN",
-  class:"cloud",
+  rarity:"COMMON",
+  class:"common",
   desc:"마음이 조금 흐려진 상태"
 },
 
 {
-  name:"FOCUS COIN",
-  class:"focus",
-  desc:"집중 흐름이 강해진 상태"
+  name:"MOON COIN",
+  rarity:"RARE",
+  class:"rare",
+  desc:"새벽 감성이 강해진 흐름"
 },
 
 {
   name:"RECOVERY COIN",
-  class:"recovery",
-  desc:"조금씩 회복이 시작되는 상태"
+  rarity:"RARE",
+  class:"rare",
+  desc:"회복이 시작되는 상태"
 },
 
 {
-  name:"SILENT COIN",
-  class:"silent",
-  desc:"혼자만의 시간이 필요한 상태"
+  name:"CHAOS COIN",
+  rarity:"EPIC",
+  class:"epic",
+  desc:"생각과 감정이 폭주하는 흐름"
+},
+
+{
+  name:"DREAM COIN",
+  rarity:"EPIC",
+  class:"epic",
+  desc:"현실보다 감정이 커진 상태"
+},
+
+{
+  name:"ECLIPSE COIN",
+  rarity:"LEGENDARY",
+  class:"legendary",
+  desc:"감정 흐름이 완전히 뒤바뀌는 순간"
 }
 
 ]
@@ -738,7 +785,7 @@ function getSeed(){
 
 }
 
-/* 시드 셔플 */
+/* 셔플 */
 
 function seededShuffle(array, seed){
 
@@ -789,7 +836,7 @@ function startQuiz(){
 
 }
 
-/* 렌더 */
+/* 질문 */
 
 function renderQuestion(){
 
@@ -813,11 +860,11 @@ function renderQuestion(){
 
 }
 
-/* 답변 */
+/* 답 */
 
-function answer(value){
+function answer(v){
 
-  score += value
+  score += v
   current++
 
   if(current < questions.length){
@@ -844,34 +891,108 @@ function showResult(){
   .getElementById('result')
   .classList.remove('hidden')
 
-  const percent =
-  Math.round((score / questions.length) * 100)
+  const rand = Math.random() * 100
 
-  const result =
-  coinTypes[
-    (score + getSeed()) % coinTypes.length
-  ]
+  let selected
+
+  if(rand < 2){
+
+    selected = coins.find(c=>c.rarity==="LEGENDARY")
+
+  }else if(rand < 10){
+
+    const epic =
+    coins.filter(c=>c.rarity==="EPIC")
+
+    selected =
+    epic[Math.floor(Math.random()*epic.length)]
+
+  }else if(rand < 30){
+
+    const rare =
+    coins.filter(c=>c.rarity==="RARE")
+
+    selected =
+    rare[Math.floor(Math.random()*rare.length)]
+
+  }else{
+
+    const common =
+    coins.filter(c=>c.rarity==="COMMON")
+
+    selected =
+    common[Math.floor(Math.random()*common.length)]
+
+  }
 
   const coin =
   document.getElementById('resultCoin')
 
   coin.className =
-  `result-coin ${result.class}`
+  `result-coin ${selected.class}`
 
   document
-  .getElementById('resultState')
+  .getElementById('resultRarity')
   .innerText =
-  result.name
+  selected.rarity
 
   document
-  .getElementById('resultScore')
+  .getElementById('resultName')
   .innerText =
-  `${percent}%`
+  selected.name
 
   document
   .getElementById('resultDesc')
   .innerText =
-  result.desc
+  selected.desc
+
+  makeSparkles(selected.rarity)
+
+}
+
+/* 꽃가루 */
+
+function makeSparkles(rarity){
+
+  const wrap =
+  document.getElementById('sparkles')
+
+  wrap.innerHTML = ""
+
+  let count = 20
+
+  if(rarity==="RARE") count = 35
+  if(rarity==="EPIC") count = 55
+  if(rarity==="LEGENDARY") count = 90
+
+  for(let i=0;i<count;i++){
+
+    const s =
+    document.createElement('div')
+
+    s.className = "spark"
+
+    s.style.left =
+    Math.random()*100 + "%"
+
+    s.style.top =
+    Math.random()*100 + "%"
+
+    s.style.animationDuration =
+    3 + Math.random()*4 + "s"
+
+    s.style.animationDelay =
+    Math.random()*2 + "s"
+
+    s.style.width =
+    4 + Math.random()*8 + "px"
+
+    s.style.height =
+    s.style.width
+
+    wrap.appendChild(s)
+
+  }
 
 }
 
