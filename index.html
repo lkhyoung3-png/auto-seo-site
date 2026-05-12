@@ -8,16 +8,11 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
+  margin: 0;
+  font-family: -apple-system, sans-serif;
   background: linear-gradient(135deg, #f7f5ff, #ffffff);
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   overflow: hidden;
 }
 
@@ -28,49 +23,29 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  position: relative;
 }
 
 .hidden { display: none; }
 
 /* START */
-.bg-glow {
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(155,93,229,0.12), transparent 70%);
-  filter: blur(40px);
-}
-
 .logo {
-  letter-spacing: 8px;
-  font-size: 13px;
-  opacity: 0.6;
-  margin-bottom: 30px;
+  font-size: 14px;
+  letter-spacing: 6px;
   color: #9b5de5;
+  margin-bottom: 20px;
 }
 
-.hero-coin {
+.hero {
   width: 220px;
   height: 220px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 40px 100px rgba(155,93,229,0.15);
+  box-shadow: 0 30px 80px rgba(155,93,229,0.15);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.hero-text {
-  color: #9b5de5;
   font-size: 18px;
-}
-
-.sub {
-  margin-top: 30px;
-  opacity: 0.6;
+  color: #9b5de5;
 }
 
 .start-btn {
@@ -80,83 +55,62 @@ body {
   border-radius: 999px;
   background: linear-gradient(145deg, #cdb4ff, #9b5de5);
   color: white;
-  letter-spacing: 3px;
 }
 
 /* 질문 */
-.progress {
-  width: 70%;
-  height: 4px;
-  background: rgba(155,93,229,0.1);
-  border-radius: 10px;
-  overflow: hidden;
-  position: absolute;
-  top: 70px;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #cdb4ff, #9b5de5);
-}
-
-.question-box {
-  width: 100%;
+.box {
+  width: 85%;
   max-width: 420px;
   background: white;
   padding: 30px;
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(155,93,229,0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(155,93,229,0.1);
   text-align: center;
 }
 
-.question-text {
+.question {
   font-size: 20px;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
-.answer-wrap {
-  margin-top: 30px;
+.btns {
   display: flex;
   gap: 10px;
 }
 
-.answer-btn {
+.btn {
   flex: 1;
   height: 50px;
-  border-radius: 16px;
+  border-radius: 14px;
   background: linear-gradient(145deg, #cdb4ff, #9b5de5);
   color: white;
 }
 
 /* 결과 */
-.result-coin {
+.result {
   width: 280px;
   height: 280px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 40px 100px rgba(155,93,229,0.15);
+  box-shadow: 0 30px 80px rgba(155,93,229,0.15);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.result-state {
-  font-size: 20px;
-}
-
-.result-score {
-  font-size: 48px;
+.score {
+  font-size: 50px;
   color: #9b5de5;
 }
 
-.result-desc {
+.desc {
+  font-size: 13px;
   opacity: 0.6;
   margin-top: 10px;
 }
 
-.action-btn {
+.action {
   margin-top: 20px;
   width: 160px;
   height: 50px;
@@ -170,157 +124,141 @@ body {
 <body>
 
 <!-- START -->
-<section id="landing" class="screen">
-  <div class="bg-glow"></div>
-
+<div id="start" class="screen">
   <div class="logo">DAILY COIN</div>
+  <div class="hero">TODAY</div>
 
-  <div class="hero-coin">
-    <div class="hero-text">TODAY</div>
-  </div>
-
-  <div class="sub">오늘의 감정 상태를 확인하세요</div>
-
-  <button class="start-btn" onclick="startQuiz()">START</button>
-</section>
+  <button class="start-btn" onclick="startQuiz()">
+    START
+  </button>
+</div>
 
 <!-- QUIZ -->
-<section id="quiz" class="screen hidden">
+<div id="quiz" class="screen hidden">
+  <div class="box">
+    <div id="num"></div>
+    <div class="question" id="q"></div>
 
-  <div class="progress">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
-
-  <div class="question-box">
-    <div id="questionNumber"></div>
-    <div class="question-text" id="questionText"></div>
-
-    <div class="answer-wrap">
-      <button class="answer-btn" onclick="answer(0)">좋음</button>
-      <button class="answer-btn" onclick="answer(1)">보통</button>
-      <button class="answer-btn" onclick="answer(2)">힘듦</button>
+    <div class="btns">
+      <button class="btn" onclick="answer(0)">좋음</button>
+      <button class="btn" onclick="answer(1)">보통</button>
+      <button class="btn" onclick="answer(2)">힘듦</button>
     </div>
   </div>
-</section>
+</div>
 
 <!-- RESULT -->
-<section id="result" class="screen hidden">
+<div id="result" class="screen hidden">
 
-  <div class="result-coin" id="coinCapture">
-    <div class="result-state" id="resultState"></div>
-    <div class="result-score" id="resultScore"></div>
-    <div class="result-desc" id="resultDesc"></div>
+  <div class="result" id="capture">
+    <div id="state"></div>
+    <div class="score" id="score"></div>
+    <div class="desc" id="desc"></div>
   </div>
 
-  <button class="action-btn" onclick="saveCoin()">SAVE</button>
-  <button class="action-btn" onclick="restartQuiz()">RETRY</button>
+  <button class="action" onclick="save()">SAVE</button>
+  <button class="action" onclick="restart()">RETRY</button>
 
-</section>
+</div>
 
 <script>
 
-/* 질문 풀 */
-const questionPool = [
-  "오늘 기분은 어땠나요?",
-  "에너지가 충분했나요?",
-  "업무가 부담스러웠나요?",
-  "쉬고 싶다고 느꼈나요?",
-  "집중이 잘 됐나요?",
-  "사람이 피곤하게 느껴졌나요?",
-  "감정 기복이 있었나요?",
-  "하루가 길게 느껴졌나요?",
-  "무기력함이 있었나요?",
-  "스트레스가 있었나요?",
-  "휴식이 필요했나요?",
-  "의욕이 있었나요?",
-  "마음이 편안했나요?",
-  "몸이 피곤했나요?",
-  "내일이 기대되나요?"
+/* 질문 */
+const pool = [
+"오늘 기분 어때?",
+"에너지 충분해?",
+"스트레스 있었어?",
+"쉬고 싶었어?",
+"집중 잘 됐어?",
+"피곤했어?",
+"사람 만나기 어땠어?",
+"일 부담됐어?",
+"감정 기복 있었어?",
+"하루 만족해?",
+"무기력했어?",
+"긴장했어?",
+"의욕 있었어?",
+"휴식 필요해?",
+"내일 기대돼?"
 ];
 
-let questions = [];
-let current = 0;
-let score = 0;
+let qs = [];
+let i = 0;
+let s = 0;
 
 /* START */
-function startQuiz() {
-  questions = [...questionPool]
+function startQuiz(){
+  qs = [...pool]
     .sort(() => Math.random() - 0.5)
     .slice(0, 15);
 
-  current = 0;
-  score = 0;
+  i = 0;
+  s = 0;
 
-  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('start').classList.add('hidden');
   document.getElementById('quiz').classList.remove('hidden');
 
   render();
 }
 
-/* 렌더 */
-function render() {
-  document.getElementById('questionNumber').innerText =
-    `${current + 1} / ${questions.length}`;
-
-  document.getElementById('questionText').innerText =
-    questions[current];
-
-  document.getElementById('progressFill').style.width =
-    (current / questions.length) * 100 + "%";
+/* 질문 */
+function render(){
+  document.getElementById('num').innerText = `${i+1}/15`;
+  document.getElementById('q').innerText = qs[i];
 }
 
 /* 답변 */
-function answer(v) {
-  score += v;
-  current++;
+function answer(v){
+  s += v;
+  i++;
 
-  if (current < questions.length) {
+  if(i < qs.length){
     render();
   } else {
-    showResult();
+    result();
   }
 }
 
 /* 결과 */
-function showResult() {
+function result(){
   document.getElementById('quiz').classList.add('hidden');
   document.getElementById('result').classList.remove('hidden');
 
-  const percent = Math.round((score / (questions.length * 2)) * 100);
+  const percent = Math.round((s / (qs.length*2)) * 100);
 
   let state = "";
   let desc = "";
 
-  if (percent < 40) {
+  if(percent < 40){
     state = "STABLE";
-    desc = "좋은 흐름이에요 🌸";
-  } else if (percent < 70) {
+    desc = "괜찮은 하루였어요 🌸";
+  } else if(percent < 70){
     state = "WARNING";
     desc = "조금 쉬어가도 좋아요 ☕";
   } else {
     state = "CRITICAL";
-    desc = "충분한 휴식이 필요합니다 💭";
+    desc = "휴식이 필요합니다 💭";
   }
 
-  document.getElementById('resultState').innerText = state;
-  document.getElementById('resultScore').innerText = percent + "%";
-  document.getElementById('resultDesc').innerText = desc;
+  document.getElementById('state').innerText = state;
+  document.getElementById('score').innerText = percent + "%";
+  document.getElementById('desc').innerText = desc;
 }
 
 /* 저장 */
-function saveCoin() {
-  html2canvas(document.getElementById('coinCapture')).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'daily-coin.png';
-    link.href = canvas.toDataURL();
-    link.click();
+function save(){
+  html2canvas(document.getElementById('capture')).then(c=>{
+    let a = document.createElement('a');
+    a.download = "coin.png";
+    a.href = c.toDataURL();
+    a.click();
   });
 }
 
-/* 다시 */
-function restartQuiz() {
+/* 리셋 */
+function restart(){
   document.getElementById('result').classList.add('hidden');
-  document.getElementById('landing').classList.remove('hidden');
+  document.getElementById('start').classList.remove('hidden');
 }
 
 </script>
