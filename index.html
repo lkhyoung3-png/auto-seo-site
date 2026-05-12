@@ -1,1193 +1,234 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DAILY COIN</title>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>직장인 주간 코인 PRO</title>
 
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  background:#07090d;
-  color:white;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-  overflow:hidden;
-}
-
-.hidden{
-  display:none !important;
-}
-
-.screen{
-  width:100vw;
-  height:100vh;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  position:relative;
-  padding:24px;
-}
-
-button{
-  border:none;
-  outline:none;
-  cursor:pointer;
-  color:white;
-  font-family:inherit;
-}
-
-/* RESET */
-
-.reset-btn{
-
-  position:fixed;
-
-  top:20px;
-  right:20px;
-
-  z-index:9999;
-
-  width:90px;
-  height:40px;
-
-  border-radius:999px;
-
-  background:#ff4d6d;
-
-  font-size:12px;
-
-  letter-spacing:1px;
-
-  box-shadow:
-  0 10px 30px rgba(0,0,0,.35);
-
-}
-
-/* 배경 */
-
-.bg{
-
-  position:absolute;
-
-  width:700px;
-  height:700px;
-
-  border-radius:50%;
-
-  background:
-  radial-gradient(circle,
-  rgba(120,140,255,.18),
-  transparent 70%);
-
-  filter:blur(80px);
-
-  animation:bgMove 8s ease-in-out infinite;
-
-  pointer-events:none;
-
-}
-
-@keyframes bgMove{
-
-  0%{
-    transform:scale(1);
-  }
-
-  50%{
-    transform:scale(1.1);
-  }
-
-  100%{
-    transform:scale(1);
-  }
-
-}
-
-@keyframes float{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-12px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
-/* 랜딩 */
-
-.logo{
-
-  position:relative;
-  z-index:2;
-
-  font-size:12px;
-
-  letter-spacing:8px;
-
-  opacity:.45;
-
-  margin-bottom:40px;
-
-}
-
-.hero-coin{
-
-  position:relative;
-  z-index:2;
-
-  width:240px;
-  height:240px;
-
-  border-radius:50%;
-
-  overflow:hidden;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  background:
-  radial-gradient(circle at top,
-  rgba(255,255,255,.35),
-  transparent 60%),
-
-  linear-gradient(145deg,
-  #1d2433,
-  #0b0d12);
-
-  box-shadow:
-  0 60px 120px rgba(0,0,0,.8),
-  inset 0 1px 0 rgba(255,255,255,.08);
-
-  animation:float 5s ease-in-out infinite;
-
-}
-
-.hero-coin::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:180%;
-  height:180%;
-
-  top:-40%;
-  left:-40%;
-
-  background:
-  linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.08),
-    transparent
-  );
-
-  transform:rotate(25deg);
-
-}
-
-.hero-text{
-
-  font-size:18px;
-
-  letter-spacing:4px;
-
-  font-weight:200;
-
-}
-
-.sub{
-
-  position:relative;
-  z-index:2;
-
-  margin-top:40px;
-
-  opacity:.55;
-
-  font-size:14px;
-
-  text-align:center;
-
-}
-
-.start-btn{
-
-  position:relative;
-  z-index:2;
-
-  margin-top:28px;
-
-  width:180px;
-  height:56px;
-
-  border-radius:999px;
-
-  background:
-  linear-gradient(145deg,
-  #232838,
-  #141821);
-
-  letter-spacing:3px;
-
-  box-shadow:
-  0 20px 50px rgba(0,0,0,.45);
-
-}
-
-/* 질문 */
-
-.progress{
-
-  position:absolute;
-
-  top:70px;
-
-  width:70%;
-  height:4px;
-
-  border-radius:999px;
-
-  background:rgba(255,255,255,.08);
-
-  overflow:hidden;
-
-}
-
-.progress-fill{
-
-  width:0%;
-  height:100%;
-
-  background:
-  linear-gradient(90deg,
-  #9ea8ff,
-  #ffffff);
-
-  transition:.35s;
-
-}
-
-.question-box{
-
-  width:100%;
-  max-width:450px;
-
-  padding:42px 30px;
-
-  border-radius:32px;
-
-  background:
-  linear-gradient(145deg,
-  #11141c,
-  #090b10);
-
-  box-shadow:
-  0 30px 80px rgba(0,0,0,.7);
-
-  text-align:center;
-
-}
-
-.question-number{
-
-  font-size:12px;
-
-  letter-spacing:3px;
-
-  opacity:.4;
-
-}
-
-.question-text{
-
-  margin-top:28px;
-
-  font-size:24px;
-
-  line-height:1.5;
-
-}
-
-.answer-wrap{
-
-  margin-top:40px;
-
-  display:flex;
-
-  gap:14px;
-
-}
-
-.answer-btn{
-
-  flex:1;
-
-  height:56px;
-
-  border-radius:18px;
-
-  background:
-  linear-gradient(145deg,
-  #1a2030,
-  #10131a);
-
-}
-
-/* 결과 */
-
-.result-wrap{
-
-  position:relative;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-
-}
-
-.result-coin{
-
-  width:320px;
-  height:320px;
-
-  border-radius:50%;
-
-  position:relative;
-
-  overflow:hidden;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  animation:float 5s ease-in-out infinite;
-
-  box-shadow:
-  0 60px 120px rgba(0,0,0,.85);
-
-}
-
-.result-coin::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:180%;
-  height:180%;
-
-  top:-40%;
-  left:-40%;
-
-  background:
-  linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,.12),
-    transparent
-  );
-
-  transform:rotate(25deg);
-
-}
-
-.result-rarity{
-
-  font-size:11px;
-
-  letter-spacing:5px;
-
-  opacity:.7;
-
-  z-index:2;
-
-}
-
-.result-name{
-
-  margin-top:18px;
-
-  font-size:26px;
-
-  letter-spacing:2px;
-
-  z-index:2;
-
-}
-
-.result-desc{
-
-  margin-top:18px;
-
-  width:75%;
-
-  font-size:13px;
-
-  line-height:1.5;
-
-  opacity:.65;
-
-  text-align:center;
-
-  z-index:2;
-
-}
-
-.result-buttons{
-
-  margin-top:40px;
-
-  display:flex;
-
-  gap:14px;
-
-  flex-wrap:wrap;
-
-}
-
-.action-btn{
-
-  width:160px;
-  height:52px;
-
-  border-radius:999px;
-
-  background:
-  linear-gradient(145deg,
-  #222838,
-  #141821);
-
-}
-
-/* 코인 등급 */
-
-.common{
-
-  background:
-  linear-gradient(145deg,
-  #4b5563,
-  #111827);
-
-}
-
-.rare{
-
-  background:
-  linear-gradient(145deg,
-  #647dff,
-  #111827);
-
-}
-
-.epic{
-
-  background:
-  linear-gradient(145deg,
-  #5b21b6,
-  #12081f);
-
-}
-
-.legendary{
-
-  background:
-  linear-gradient(145deg,
-  #000000,
-  #2a0b3f);
-
-  box-shadow:
-  0 0 60px rgba(180,120,255,.4),
-  0 60px 120px rgba(0,0,0,.85);
-
-}
-
-/* 히스토리 */
-
-.history-title{
-
-  font-size:14px;
-
-  letter-spacing:8px;
-
-  opacity:.55;
-
-  margin-bottom:30px;
-
-}
-
-.history-list{
-
-  width:100%;
-  max-width:420px;
-
-  display:grid;
-
-  grid-template-columns:repeat(2,1fr);
-
-  gap:22px;
-
-  max-height:70vh;
-
-  overflow:auto;
-
-  padding:10px;
-
-}
-
-.history-item{
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-
-}
-
-.history-coin{
-
-  width:150px;
-  height:150px;
-
-  border-radius:50%;
-
-  overflow:hidden;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  animation:float 5s ease-in-out infinite;
-
-  box-shadow:
-  0 30px 60px rgba(0,0,0,.5);
-
-}
-
-.history-rarity{
-
-  font-size:10px;
-
-  letter-spacing:3px;
-
-  opacity:.7;
-
-}
-
-.history-name{
-
+body { font-family: sans-serif; background:#f4f4f4; padding:20px; }
+h2 { text-align:center; }
+
+.card {
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
   margin-top:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
 
-  width:70%;
+.coin {
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+}
 
+button {
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border:none;
+  border-radius:10px;
+  background:#222;
+  color:#fff;
+  font-size:15px;
+}
+
+.meta { font-weight:bold; margin-top:10px; }
+.small { font-size:13px; color:#666; }
+
+.badge {
   text-align:center;
-
-  line-height:1.4;
-
-  font-size:14px;
-
+  font-size:20px;
+  margin-top:10px;
+  font-weight:bold;
 }
 
-.history-date{
-
-  margin-top:12px;
-
-  font-size:10px;
-
-  letter-spacing:2px;
-
-  opacity:.45;
-
+.history {
+  font-size:12px;
+  color:#777;
+  margin-top:10px;
 }
-
-/* 반짝이 */
-
-.sparkles{
-
-  position:absolute;
-
-  inset:0;
-
-  pointer-events:none;
-
-}
-
-.spark{
-
-  position:absolute;
-
-  border-radius:50%;
-
-  background:white;
-
-  animation:sparkFloat linear infinite;
-
-}
-
-@keyframes sparkFloat{
-
-  0%{
-    transform:translateY(100px) scale(.2);
-    opacity:0;
-  }
-
-  20%{
-    opacity:1;
-  }
-
-  100%{
-    transform:translateY(-500px) scale(1);
-    opacity:0;
-  }
-
-}
-
-@media(max-width:500px){
-
-  .result-coin{
-    width:280px;
-    height:280px;
-  }
-
-  .history-coin{
-    width:130px;
-    height:130px;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<button class="reset-btn" onclick="resetDaily()">
-RESET
-</button>
+<h2>🪙 직장인 코인 PRO</h2>
 
-<section id="landing" class="screen">
+<div class="card">
 
-  <div class="bg"></div>
+  <div id="coins"></div>
 
-  <div class="logo">
-    DAILY COIN
-  </div>
+  <div class="meta" id="avg"></div>
+  <div class="meta" id="streak"></div>
+  <div class="badge" id="grade"></div>
+  <div class="meta" id="burnout"></div>
 
-  <div class="hero-coin">
-    <div class="hero-text">
-      TODAY
-    </div>
-  </div>
+  <button onclick="addCoin()">오늘 코인 생성</button>
+  <button onclick="share()">SNS 공유</button>
+  <button onclick="nextWeek()" style="background:#555;">다음 주 시작</button>
+  <button onclick="resetAll()" style="background:#999;">전체 리셋</button>
 
-  <div class="sub">
-    오늘의 감정 코인을 획득하세요
-  </div>
+  <div class="history" id="history"></div>
 
-  <button class="start-btn" onclick="startQuiz()">
-    START
-  </button>
-
-</section>
-
-<section id="quiz" class="screen hidden">
-
-  <div class="progress">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
-
-  <div class="question-box">
-
-    <div class="question-number" id="questionNumber"></div>
-
-    <div class="question-text" id="questionText"></div>
-
-    <div class="answer-wrap">
-
-      <button class="answer-btn" onclick="answer()">
-        NO
-      </button>
-
-      <button class="answer-btn" onclick="answer()">
-        YES
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="result" class="screen hidden">
-
-  <div class="result-wrap" id="captureArea">
-
-    <div class="sparkles" id="sparkles"></div>
-
-    <div class="result-coin" id="resultCoin">
-
-      <div class="result-rarity" id="resultRarity"></div>
-
-      <div class="result-name" id="resultName"></div>
-
-      <div class="result-desc" id="resultDesc"></div>
-
-    </div>
-
-  </div>
-
-  <div class="result-buttons">
-
-    <button class="action-btn" onclick="saveCoinImage()">
-      SAVE
-    </button>
-
-    <button class="action-btn" onclick="openHistory()">
-      MY COINS
-    </button>
-
-  </div>
-
-</section>
-
-<section id="historyScreen" class="screen hidden">
-
-  <div class="history-title">
-    MY COINS
-  </div>
-
-  <div class="history-list" id="historyList"></div>
-
-  <button class="action-btn" onclick="closeHistory()">
-    CLOSE
-  </button>
-
-</section>
+</div>
 
 <script>
 
-const questionPool = [
+const MAX = 5;
+const dayMap = ["일","월","화","수","목","금","토"];
 
-"출근 생각만 해도 피곤하다",
-"혼자 있고 싶은 날이 많다",
-"쉬어도 회복이 느리다",
-"감정 기복이 심해진 느낌이다",
-"사람들과 대화가 귀찮다",
-"생각이 너무 많아진다",
-"자꾸 멍해지는 순간이 있다",
-"업무가 버겁게 느껴진다",
-"예전보다 의욕이 줄었다",
-"하루가 너무 빨리 소모된다",
-"잠을 자도 개운하지 않다",
-"지금은 천천히 가고 싶다",
-"감정 소비가 커진 느낌이다",
-"회복이 필요한 느낌이다",
-"혼자 조용히 쉬고 싶다"
+const coinsPool = [
+  {name:"칼퇴 성공 코인", score:95},
+  {name:"버티기 성공 코인", score:70},
+  {name:"회의 생존 코인", score:60},
+  {name:"야근 확정 코인", score:30},
+  {name:"멘탈 붕괴 코인", score:10}
+];
 
-]
-
-const coins = [
-
-{
-  name:"SILENT COIN",
-  rarity:"COMMON",
-  class:"common",
-  desc:"혼자만의 시간이 필요한 상태"
-},
-
-{
-  name:"MOON COIN",
-  rarity:"RARE",
-  class:"rare",
-  desc:"새벽 감성이 강해진 흐름"
-},
-
-{
-  name:"CHAOS COIN",
-  rarity:"EPIC",
-  class:"epic",
-  desc:"생각과 감정이 폭주하는 흐름"
-},
-
-{
-  name:"ECLIPSE COIN",
-  rarity:"LEGENDARY",
-  class:"legendary",
-  desc:"감정 흐름이 완전히 뒤바뀌는 순간"
+function getCoins(){
+  return JSON.parse(localStorage.getItem("coins") || "[]");
 }
 
-]
-
-let questions = []
-let current = 0
-
-function todayKey(){
-
-  const d = new Date()
-
-  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
-
+function setCoins(data){
+  localStorage.setItem("coins", JSON.stringify(data));
 }
 
-function generateQuestions(){
-
-  questions =
-  [...questionPool]
-  .sort(()=>Math.random()-0.5)
-
+function getHistory(){
+  return JSON.parse(localStorage.getItem("history") || "[]");
 }
 
-function startQuiz(){
+function setHistory(data){
+  localStorage.setItem("history", JSON.stringify(data));
+}
 
-  const already =
-  localStorage.getItem("dailyCoinDate")
+// streak 계산
+function getStreak(coins){
+  if(coins.length === 0) return 0;
+  return coins.length;
+}
 
-  if(already === todayKey()){
+// 평균
+function avg(coins){
+  if(!coins.length) return 0;
+  return Math.round(coins.reduce((a,b)=>a+b.score,0)/coins.length);
+}
 
-    showTodayCoin()
-    return
+// 등급
+function grade(avgScore){
+  if(avgScore >= 85) return "🏆 S 등급 (완벽한 한 주)";
+  if(avgScore >= 70) return "🥇 A 등급 (괜찮은 한 주)";
+  if(avgScore >= 50) return "🥈 B 등급 (평균)";
+  return "🥉 C 등급 (번아웃 위험)";
+}
 
+// 번아웃
+function burnout(avgScore){
+  if(avgScore >= 80) return "🔥 번아웃 LOW";
+  if(avgScore >= 50) return "⚠️ 보통";
+  return "🚨 HIGH 위험";
+}
+
+// 오늘 코인 생성
+function addCoin(){
+
+  let coins = getCoins();
+
+  const now = new Date();
+  const day = dayMap[now.getDay()];
+
+  const pick = coinsPool[Math.floor(Math.random()*coinsPool.length)];
+
+  coins.push({
+    day,
+    name: pick.name,
+    score: pick.score,
+    date: now.toISOString()
+  });
+
+  if(coins.length > MAX){
+    coins = coins.slice(coins.length - MAX);
   }
 
-  generateQuestions()
-
-  current = 0
-
-  document
-  .getElementById("landing")
-  .classList.add("hidden")
-
-  document
-  .getElementById("quiz")
-  .classList.remove("hidden")
-
-  renderQuestion()
-
+  setCoins(coins);
+  render();
 }
 
-function renderQuestion(){
+// 다음 주 이동 (히스토리 저장)
+function nextWeek(){
+  let coins = getCoins();
+  let history = getHistory();
 
-  document
-  .getElementById("questionNumber")
-  .innerText =
-  `${current+1} / ${questions.length}`
-
-  document
-  .getElementById("questionText")
-  .innerText =
-  questions[current]
-
-  document
-  .getElementById("progressFill")
-  .style.width =
-  `${(current/questions.length)*100}%`
-
-}
-
-function answer(){
-
-  current++
-
-  if(current >= questions.length){
-
-    showResult()
-    return
-
+  if(coins.length){
+    history.push(coins);
   }
 
-  renderQuestion()
+  setHistory(history);
+  setCoins([]);
 
+  render();
 }
 
-function showResult(){
+// 리셋
+function resetAll(){
+  localStorage.removeItem("coins");
+  localStorage.removeItem("history");
+  render();
+}
 
-  document
-  .getElementById("quiz")
-  .classList.add("hidden")
+// 공유
+function share(){
+  const coins = getCoins();
+  const a = avg(coins);
 
-  document
-  .getElementById("result")
-  .classList.remove("hidden")
+  const text =
+`🪙 이번 주 직장 코인
 
-  const rand = Math.random()*100
+평균: ${a}
+등급: ${grade(a)}
+${burnout(a)}
 
-  let selected
+#직장인코인`;
 
-  if(rand < 2){
-
-    selected =
-    coins.find(c=>c.rarity==="LEGENDARY")
-
-  }else if(rand < 10){
-
-    selected =
-    coins.find(c=>c.rarity==="EPIC")
-
-  }else if(rand < 30){
-
-    selected =
-    coins.find(c=>c.rarity==="RARE")
-
-  }else{
-
-    selected =
-    coins.find(c=>c.rarity==="COMMON")
-
+  if(navigator.share){
+    navigator.share({text});
+  } else {
+    alert(text);
   }
-
-  renderCoin(selected)
-
-  saveHistory(selected)
-
 }
 
-function renderCoin(selected){
+// 렌더
+function render(){
 
-  const coin =
-  document.getElementById("resultCoin")
+  const coins = getCoins();
+  const history = getHistory();
 
-  coin.className =
-  `result-coin ${selected.class}`
+  const box = document.getElementById("coins");
+  box.innerHTML = "";
 
-  document
-  .getElementById("resultRarity")
-  .innerText =
-  selected.rarity
-
-  document
-  .getElementById("resultName")
-  .innerText =
-  selected.name
-
-  document
-  .getElementById("resultDesc")
-  .innerText =
-  selected.desc
-
-  makeSparkles(selected.rarity)
-
-}
-
-function saveHistory(coin){
-
-  localStorage.setItem(
-    "dailyCoinDate",
-    todayKey()
-  )
-
-  localStorage.setItem(
-    "todayCoin",
-    JSON.stringify(coin)
-  )
-
-  let history =
-  JSON.parse(
-    localStorage.getItem("coinHistory") || "[]"
-  )
-
-  const exists =
-  history.find(h=>h.date===todayKey())
-
-  if(exists) return
-
-  history.unshift({
-
-    date:todayKey(),
-    name:coin.name,
-    rarity:coin.rarity,
-    class:coin.class
-
-  })
-
-  localStorage.setItem(
-    "coinHistory",
-    JSON.stringify(history)
-  )
-
-}
-
-function showTodayCoin(){
-
-  const saved =
-  JSON.parse(
-    localStorage.getItem("todayCoin")
-  )
-
-  if(!saved) return
-
-  document
-  .getElementById("landing")
-  .classList.add("hidden")
-
-  document
-  .getElementById("result")
-  .classList.remove("hidden")
-
-  renderCoin(saved)
-
-}
-
-function openHistory(){
-
-  document
-  .getElementById("result")
-  .classList.add("hidden")
-
-  document
-  .getElementById("historyScreen")
-  .classList.remove("hidden")
-
-  renderHistory()
-
-}
-
-function closeHistory(){
-
-  document
-  .getElementById("historyScreen")
-  .classList.add("hidden")
-
-  document
-  .getElementById("result")
-  .classList.remove("hidden")
-
-}
-
-function renderHistory(){
-
-  const list =
-  document.getElementById("historyList")
-
-  const history =
-  JSON.parse(
-    localStorage.getItem("coinHistory") || "[]"
-  )
-
-  list.innerHTML = ""
-
-  history.forEach(item=>{
-
-    const div =
-    document.createElement("div")
-
-    div.className = "history-item"
-
-    div.innerHTML =
-    `
-      <div class="history-coin ${item.class}">
-        <div class="history-rarity">
-          ${item.rarity}
-        </div>
-
-        <div class="history-name">
-          ${item.name}
-        </div>
+  coins.forEach(c=>{
+    box.innerHTML += `
+      <div class="coin">
+        <span>[${c.day}] ${c.name}</span>
+        <span>${c.score}</span>
       </div>
+    `;
+  });
 
-      <div class="history-date">
-        ${item.date}
-      </div>
-    `
+  const a = avg(coins);
 
-    list.appendChild(div)
+  document.getElementById("avg").innerText = "평균 점수: " + a;
+  document.getElementById("streak").innerText = "이번 주 기록: " + coins.length + "일";
+  document.getElementById("burnout").innerText = burnout(a);
+  document.getElementById("grade").innerText = grade(a);
 
-  })
-
+  let h = "이전 주: " + history.length + "주 저장됨";
+  document.getElementById("history").innerText = h;
 }
 
-function makeSparkles(rarity){
-
-  const wrap =
-  document.getElementById("sparkles")
-
-  wrap.innerHTML = ""
-
-  let count = 20
-
-  if(rarity==="RARE") count = 40
-  if(rarity==="EPIC") count = 60
-  if(rarity==="LEGENDARY") count = 100
-
-  for(let i=0;i<count;i++){
-
-    const s =
-    document.createElement("div")
-
-    s.className = "spark"
-
-    s.style.left =
-    Math.random()*100 + "%"
-
-    s.style.top =
-    Math.random()*100 + "%"
-
-    s.style.width =
-    4 + Math.random()*8 + "px"
-
-    s.style.height =
-    s.style.width
-
-    s.style.animationDuration =
-    3 + Math.random()*4 + "s"
-
-    wrap.appendChild(s)
-
-  }
-
-}
-
-function saveCoinImage(){
-
-  html2canvas(
-    document.getElementById("captureArea"),
-    {
-      backgroundColor:null,
-      scale:4
-    }
-  ).then(canvas=>{
-
-    const link =
-    document.createElement("a")
-
-    link.download =
-    "daily-coin.png"
-
-    link.href =
-    canvas.toDataURL()
-
-    link.click()
-
-  })
-
-}
-
-function resetDaily(){
-
-  localStorage.removeItem("dailyCoinDate")
-  localStorage.removeItem("todayCoin")
-
-  location.reload()
-
-}
+render();
 
 </script>
 
