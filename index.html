@@ -3,75 +3,68 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>직장인 주간 코인 PRO</title>
+<title>직장인 주간 코인</title>
 
 <style>
-body { font-family: sans-serif; background:#f4f4f4; padding:20px; }
+body { font-family: sans-serif; background:#f5f5f5; padding:20px; }
 h2 { text-align:center; }
 
 .card {
-  background:#fff;
+  background:white;
   padding:15px;
+  margin:10px 0;
   border-radius:12px;
-  margin-top:10px;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .coin {
   display:flex;
   justify-content:space-between;
-  padding:8px 0;
+  padding:10px;
   border-bottom:1px solid #eee;
 }
 
 button {
   width:100%;
   padding:12px;
-  margin-top:8px;
+  margin-top:10px;
   border:none;
   border-radius:10px;
   background:#222;
-  color:#fff;
-  font-size:15px;
+  color:white;
+  font-size:16px;
 }
 
-.meta { font-weight:bold; margin-top:10px; }
-.small { font-size:13px; color:#666; }
-
-.badge {
-  text-align:center;
-  font-size:20px;
-  margin-top:10px;
+.meta {
   font-weight:bold;
+  margin-top:10px;
 }
 
-.history {
-  font-size:12px;
-  color:#777;
-  margin-top:10px;
+.level {
+  font-size:18px;
+  text-align:center;
+  padding:10px;
+  border-radius:10px;
+  background:#ffecec;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🪙 직장인 코인 PRO</h2>
+<h2>🪙 직장인 주간 코인</h2>
 
 <div class="card">
 
   <div id="coins"></div>
 
   <div class="meta" id="avg"></div>
-  <div class="meta" id="streak"></div>
-  <div class="badge" id="grade"></div>
-  <div class="meta" id="burnout"></div>
+  <div class="level" id="burnout"></div>
+  <div class="meta" id="grade"></div>
 
   <button onclick="addCoin()">오늘 코인 생성</button>
   <button onclick="share()">SNS 공유</button>
-  <button onclick="nextWeek()" style="background:#555;">다음 주 시작</button>
-  <button onclick="resetAll()" style="background:#999;">전체 리셋</button>
-
-  <div class="history" id="history"></div>
+  <button onclick="resetAll()" style="background:#999;">리셋</button>
 
 </div>
 
@@ -88,50 +81,16 @@ const coinsPool = [
   {name:"멘탈 붕괴 코인", score:10}
 ];
 
+// 저장
 function getCoins(){
   return JSON.parse(localStorage.getItem("coins") || "[]");
 }
 
-function setCoins(data){
+function saveCoins(data){
   localStorage.setItem("coins", JSON.stringify(data));
 }
 
-function getHistory(){
-  return JSON.parse(localStorage.getItem("history") || "[]");
-}
-
-function setHistory(data){
-  localStorage.setItem("history", JSON.stringify(data));
-}
-
-// streak 계산
-function getStreak(coins){
-  if(coins.length === 0) return 0;
-  return coins.length;
-}
-
-// 평균
-function avg(coins){
-  if(!coins.length) return 0;
-  return Math.round(coins.reduce((a,b)=>a+b.score,0)/coins.length);
-}
-
-// 등급
-function grade(avgScore){
-  if(avgScore >= 85) return "🏆 S 등급 (완벽한 한 주)";
-  if(avgScore >= 70) return "🥇 A 등급 (괜찮은 한 주)";
-  if(avgScore >= 50) return "🥈 B 등급 (평균)";
-  return "🥉 C 등급 (번아웃 위험)";
-}
-
-// 번아웃
-function burnout(avgScore){
-  if(avgScore >= 80) return "🔥 번아웃 LOW";
-  if(avgScore >= 50) return "⚠️ 보통";
-  return "🚨 HIGH 위험";
-}
-
-// 오늘 코인 생성
+// 코인 생성 (핵심 수정 없음)
 function addCoin(){
 
   let coins = getCoins();
@@ -144,51 +103,75 @@ function addCoin(){
   coins.push({
     day,
     name: pick.name,
-    score: pick.score,
-    date: now.toISOString()
+    score: pick.score
   });
 
+  // 🔥 핵심 유지 (5개 제한)
   if(coins.length > MAX){
     coins = coins.slice(coins.length - MAX);
   }
 
-  setCoins(coins);
+  saveCoins(coins);
   render();
 }
 
-// 다음 주 이동 (히스토리 저장)
-function nextWeek(){
-  let coins = getCoins();
-  let history = getHistory();
-
-  if(coins.length){
-    history.push(coins);
-  }
-
-  setHistory(history);
-  setCoins([]);
-
-  render();
+// 평균
+function getAvg(coins){
+  if(!coins.length) return 0;
+  return Math.round(coins.reduce((a,b)=>a+b.score,0)/coins.length);
 }
 
-// 리셋
-function resetAll(){
-  localStorage.removeItem("coins");
-  localStorage.removeItem("history");
-  render();
+// 번아웃
+function burnout(avg){
+  if(avg >= 80) return "🔥 번아웃 LOW (상태 좋음)";
+  if(avg >= 50) return "⚠️ 보통 (조금 피곤)";
+  return "🚨 번아웃 HIGH (위험)";
 }
 
-// 공유
-function share(){
+// 등급
+function grade(avg){
+  if(avg >= 85) return "S등급";
+  if(avg >= 70) return "A등급";
+  if(avg >= 50) return "B등급";
+  return "C등급";
+}
+
+// 렌더
+function render(){
+
   const coins = getCoins();
-  const a = avg(coins);
+  const box = document.getElementById("coins");
+
+  box.innerHTML = "";
+
+  coins.forEach(c=>{
+    box.innerHTML += `
+      <div class="coin">
+        <span>[${c.day}] ${c.name}</span>
+        <span>${c.score}점</span>
+      </div>
+    `;
+  });
+
+  const avg = getAvg(coins);
+
+  document.getElementById("avg").innerText = "평균 점수: " + avg;
+  document.getElementById("burnout").innerText = burnout(avg);
+  document.getElementById("grade").innerText = "이번 주 평가: " + grade(avg);
+}
+
+// SNS 공유
+function share(){
+
+  const coins = getCoins();
+  const avg = getAvg(coins);
 
   const text =
-`🪙 이번 주 직장 코인
+`🪙 직장인 주간 코인
 
-평균: ${a}
-등급: ${grade(a)}
-${burnout(a)}
+평균: ${avg}
+평가: ${grade(avg)}
+${burnout(avg)}
 
 #직장인코인`;
 
@@ -199,33 +182,10 @@ ${burnout(a)}
   }
 }
 
-// 렌더
-function render(){
-
-  const coins = getCoins();
-  const history = getHistory();
-
-  const box = document.getElementById("coins");
-  box.innerHTML = "";
-
-  coins.forEach(c=>{
-    box.innerHTML += `
-      <div class="coin">
-        <span>[${c.day}] ${c.name}</span>
-        <span>${c.score}</span>
-      </div>
-    `;
-  });
-
-  const a = avg(coins);
-
-  document.getElementById("avg").innerText = "평균 점수: " + a;
-  document.getElementById("streak").innerText = "이번 주 기록: " + coins.length + "일";
-  document.getElementById("burnout").innerText = burnout(a);
-  document.getElementById("grade").innerText = grade(a);
-
-  let h = "이전 주: " + history.length + "주 저장됨";
-  document.getElementById("history").innerText = h;
+// 리셋
+function resetAll(){
+  localStorage.removeItem("coins");
+  render();
 }
 
 render();
