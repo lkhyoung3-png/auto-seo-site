@@ -1,5 +1,3 @@
-<!-- FORCE-CHANGE-2026 -->
-<h1 style="color:red;font-size:40px;">VERSION TEST 2026</h1>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -49,10 +47,21 @@ button {
   border-radius:10px;
   background:#ffecec;
 }
+
+.test {
+  color:red;
+  font-size:14px;
+  text-align:center;
+  margin-bottom:10px;
+}
 </style>
+
 </head>
 
 <body>
+
+<!-- 🔥 테스트 표시 (여기가 안전한 위치) -->
+<div class="test">DEPLOY TEST 9999</div>
 
 <h2>🪙 직장인 주간 코인</h2>
 
@@ -83,7 +92,6 @@ const coinsPool = [
   {name:"멘탈 붕괴 코인", score:10}
 ];
 
-// 저장
 function getCoins(){
   return JSON.parse(localStorage.getItem("coins") || "[]");
 }
@@ -92,7 +100,7 @@ function saveCoins(data){
   localStorage.setItem("coins", JSON.stringify(data));
 }
 
-// 코인 생성 (핵심 수정 없음)
+// 코인 생성
 function addCoin(){
 
   let coins = getCoins();
@@ -108,7 +116,6 @@ function addCoin(){
     score: pick.score
   });
 
-  // 🔥 핵심 유지 (5개 제한)
   if(coins.length > MAX){
     coins = coins.slice(coins.length - MAX);
   }
@@ -142,8 +149,8 @@ function grade(avg){
 function render(){
 
   const coins = getCoins();
-  const box = document.getElementById("coins");
 
+  const box = document.getElementById("coins");
   box.innerHTML = "";
 
   coins.forEach(c=>{
