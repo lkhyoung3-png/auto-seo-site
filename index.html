@@ -23,8 +23,6 @@ body{
   overflow:hidden;
 }
 
-/* 공통 */
-
 .screen{
   width:100vw;
   height:100vh;
@@ -39,7 +37,7 @@ body{
 }
 
 .hidden{
-  display:none;
+  display:none !important;
 }
 
 button{
@@ -49,8 +47,6 @@ button{
   color:white;
   font-family:inherit;
 }
-
-/* 배경 */
 
 .bg{
   position:absolute;
@@ -83,8 +79,6 @@ button{
   }
 
 }
-
-/* 랜딩 */
 
 .logo{
   position:relative;
@@ -216,8 +210,6 @@ button{
   transform:translateY(-2px);
 }
 
-/* 질문 */
-
 .progress{
 
   position:absolute;
@@ -339,8 +331,6 @@ button{
   transform:translateY(-2px);
 }
 
-/* 결과 */
-
 .result-wrap{
 
   position:relative;
@@ -399,8 +389,6 @@ button{
 
 }
 
-/* 꽃가루 */
-
 .sparkles{
 
   position:absolute;
@@ -415,11 +403,7 @@ button{
 
   position:absolute;
 
-  width:8px;
-  height:8px;
-
   border-radius:50%;
-
   background:white;
 
   opacity:.8;
@@ -518,8 +502,6 @@ button{
   transform:translateY(-2px);
 }
 
-/* 히스토리 */
-
 .history-title{
 
   font-size:14px;
@@ -597,26 +579,15 @@ button{
 
 .rare-border{
   border:1px solid rgba(120,160,255,.45);
-
-  box-shadow:
-  0 0 25px rgba(120,160,255,.18);
 }
 
 .epic-border{
   border:1px solid rgba(190,120,255,.5);
-
-  box-shadow:
-  0 0 35px rgba(190,120,255,.2);
 }
 
 .legendary-border{
   border:1px solid rgba(255,255,255,.55);
-
-  box-shadow:
-  0 0 50px rgba(180,120,255,.45);
 }
-
-/* 등급 */
 
 .common{
 
@@ -668,10 +639,6 @@ button{
   #000000,
   #2a0b3f);
 
-  box-shadow:
-  0 0 60px rgba(180,120,255,.4),
-  0 60px 120px rgba(0,0,0,.85);
-
 }
 
 @media(max-width:500px){
@@ -685,18 +652,12 @@ button{
     font-size:20px;
   }
 
-  .result-buttons{
-    flex-direction:column;
-  }
-
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- 랜딩 -->
 
 <section id="landing" class="screen">
 
@@ -707,11 +668,9 @@ button{
   </div>
 
   <div class="hero-coin">
-
     <div class="hero-text">
       TODAY
     </div>
-
   </div>
 
   <div class="sub">
@@ -723,8 +682,6 @@ button{
   </button>
 
 </section>
-
-<!-- 질문 -->
 
 <section id="quiz" class="screen hidden">
 
@@ -754,8 +711,6 @@ button{
 
 </section>
 
-<!-- 결과 -->
-
 <section id="result" class="screen hidden">
 
   <div class="result-wrap" id="captureArea">
@@ -784,15 +739,9 @@ button{
       MY COINS
     </button>
 
-    <button class="action-btn" onclick="restartQuiz()">
-      RETRY
-    </button>
-
   </div>
 
 </section>
-
-<!-- 히스토리 -->
 
 <section id="historyScreen" class="screen hidden">
 
@@ -809,8 +758,6 @@ button{
 </section>
 
 <script>
-
-/* 질문 */
 
 const questionPool = [
 
@@ -836,8 +783,6 @@ const questionPool = [
 "생각 정리가 잘 안 된다"
 
 ]
-
-/* 코인 */
 
 const coins = [
 
@@ -894,9 +839,6 @@ const coins = [
 
 let questions = []
 let current = 0
-let score = 0
-
-/* 날짜 */
 
 function todayKey(){
 
@@ -906,42 +848,14 @@ function todayKey(){
 
 }
 
-/* 셔플 */
-
-function seededShuffle(array, seed){
-
-  const arr = [...array]
-
-  for(let i = arr.length - 1; i > 0; i--){
-
-    const j = Math.floor(
-      ((Math.sin(seed + i) * 10000) % 1 + 1) % 1 * (i + 1)
-    )
-
-    ;[arr[i], arr[j]] = [arr[j], arr[i]]
-
-  }
-
-  return arr
-
-}
-
-/* 질문 생성 */
-
 function generateQuestions(){
 
-  const d = new Date()
-
-  const seed =
-  d.getFullYear() + d.getMonth() + d.getDate()
-
   questions =
-  seededShuffle(questionPool, seed)
+  [...questionPool]
+  .sort(()=>Math.random()-0.5)
   .slice(0,15)
 
 }
-
-/* 시작 */
 
 function startQuiz(){
 
@@ -951,7 +865,6 @@ function startQuiz(){
   if(already === todayKey()){
 
     showTodayCoin()
-
     return
 
   }
@@ -959,49 +872,40 @@ function startQuiz(){
   generateQuestions()
 
   current = 0
-  score = 0
 
   document
-  .getElementById('landing')
-  .classList.add('hidden')
+  .getElementById("landing")
+  .classList.add("hidden")
 
   document
-  .getElementById('quiz')
-  .classList.remove('hidden')
+  .getElementById("quiz")
+  .classList.remove("hidden")
 
   renderQuestion()
 
 }
 
-/* 질문 */
-
 function renderQuestion(){
 
   document
-  .getElementById('questionNumber')
+  .getElementById("questionNumber")
   .innerText =
-  `${current + 1} / ${questions.length}`
+  `${current+1} / ${questions.length}`
 
   document
-  .getElementById('questionText')
+  .getElementById("questionText")
   .innerText =
   questions[current]
 
-  const percent =
-  (current / questions.length) * 100
-
   document
-  .getElementById('progressFill')
+  .getElementById("progressFill")
   .style.width =
-  `${percent}%`
+  `${(current/questions.length)*100}%`
 
 }
 
-/* 답변 */
-
 function answer(v){
 
-  score += v
   current++
 
   if(current < questions.length){
@@ -1016,19 +920,17 @@ function answer(v){
 
 }
 
-/* 결과 */
-
 function showResult(){
 
   document
-  .getElementById('quiz')
-  .classList.add('hidden')
+  .getElementById("quiz")
+  .classList.add("hidden")
 
   document
-  .getElementById('result')
-  .classList.remove('hidden')
+  .getElementById("result")
+  .classList.remove("hidden")
 
-  const rand = Math.random() * 100
+  const rand = Math.random()*100
 
   let selected
 
@@ -1039,27 +941,18 @@ function showResult(){
 
   }else if(rand < 10){
 
-    const epic =
-    coins.filter(c=>c.rarity==="EPIC")
-
     selected =
-    epic[Math.floor(Math.random()*epic.length)]
+    coins.filter(c=>c.rarity==="EPIC")[0]
 
   }else if(rand < 30){
 
-    const rare =
-    coins.filter(c=>c.rarity==="RARE")
-
     selected =
-    rare[Math.floor(Math.random()*rare.length)]
+    coins.filter(c=>c.rarity==="RARE")[0]
 
   }else{
 
-    const common =
-    coins.filter(c=>c.rarity==="COMMON")
-
     selected =
-    common[Math.floor(Math.random()*common.length)]
+    coins.filter(c=>c.rarity==="COMMON")[0]
 
   }
 
@@ -1069,36 +962,32 @@ function showResult(){
 
 }
 
-/* 렌더 */
-
 function renderCoin(selected){
 
   const coin =
-  document.getElementById('resultCoin')
+  document.getElementById("resultCoin")
 
   coin.className =
   `result-coin ${selected.class}`
 
   document
-  .getElementById('resultRarity')
+  .getElementById("resultRarity")
   .innerText =
   selected.rarity
 
   document
-  .getElementById('resultName')
+  .getElementById("resultName")
   .innerText =
   selected.name
 
   document
-  .getElementById('resultDesc')
+  .getElementById("resultDesc")
   .innerText =
   selected.desc
 
   makeSparkles(selected.rarity)
 
 }
-
-/* 저장 */
 
 function saveHistory(coin){
 
@@ -1131,16 +1020,12 @@ function saveHistory(coin){
 
   })
 
-  history = history.slice(0,30)
-
   localStorage.setItem(
     "coinHistory",
     JSON.stringify(history)
   )
 
 }
-
-/* 오늘 코인 */
 
 function showTodayCoin(){
 
@@ -1152,36 +1037,34 @@ function showTodayCoin(){
   if(!saved) return
 
   document
-  .getElementById('landing')
-  .classList.add('hidden')
+  .getElementById("landing")
+  .classList.add("hidden")
 
   document
-  .getElementById('result')
-  .classList.remove('hidden')
+  .getElementById("result")
+  .classList.remove("hidden")
 
   renderCoin(saved)
 
 }
 
-/* 꽃가루 */
-
 function makeSparkles(rarity){
 
   const wrap =
-  document.getElementById('sparkles')
+  document.getElementById("sparkles")
 
   wrap.innerHTML = ""
 
   let count = 20
 
-  if(rarity==="RARE") count = 35
-  if(rarity==="EPIC") count = 55
-  if(rarity==="LEGENDARY") count = 90
+  if(rarity==="RARE") count = 40
+  if(rarity==="EPIC") count = 60
+  if(rarity==="LEGENDARY") count = 100
 
   for(let i=0;i<count;i++){
 
     const s =
-    document.createElement('div')
+    document.createElement("div")
 
     s.className = "spark"
 
@@ -1191,17 +1074,14 @@ function makeSparkles(rarity){
     s.style.top =
     Math.random()*100 + "%"
 
-    s.style.animationDuration =
-    3 + Math.random()*4 + "s"
-
-    s.style.animationDelay =
-    Math.random()*2 + "s"
-
     s.style.width =
     4 + Math.random()*8 + "px"
 
     s.style.height =
     s.style.width
+
+    s.style.animationDuration =
+    3 + Math.random()*4 + "s"
 
     wrap.appendChild(s)
 
@@ -1209,12 +1089,10 @@ function makeSparkles(rarity){
 
 }
 
-/* 저장 */
-
 function saveCoin(){
 
   html2canvas(
-    document.getElementById('captureArea'),
+    document.getElementById("captureArea"),
     {
       backgroundColor:null,
       scale:4
@@ -1222,10 +1100,10 @@ function saveCoin(){
   ).then(canvas=>{
 
     const link =
-    document.createElement('a')
+    document.createElement("a")
 
     link.download =
-    'daily-coin.png'
+    "daily-coin.png"
 
     link.href =
     canvas.toDataURL()
@@ -1236,13 +1114,15 @@ function saveCoin(){
 
 }
 
-/* 히스토리 */
-
 function openHistory(){
 
   document
-  .getElementById('historyScreen')
-  .classList.remove('hidden')
+  .getElementById("result")
+  .classList.add("hidden")
+
+  document
+  .getElementById("historyScreen")
+  .classList.remove("hidden")
 
   renderHistory()
 
@@ -1251,15 +1131,19 @@ function openHistory(){
 function closeHistory(){
 
   document
-  .getElementById('historyScreen')
-  .classList.add('hidden')
+  .getElementById("historyScreen")
+  .classList.add("hidden")
+
+  document
+  .getElementById("result")
+  .classList.remove("hidden")
 
 }
 
 function renderHistory(){
 
   const list =
-  document.getElementById('historyList')
+  document.getElementById("historyList")
 
   const history =
   JSON.parse(
@@ -1268,23 +1152,10 @@ function renderHistory(){
 
   list.innerHTML = ""
 
-  if(history.length === 0){
-
-    list.innerHTML =
-    `
-      <div class="history-card">
-        아직 획득한 코인이 없습니다
-      </div>
-    `
-
-    return
-
-  }
-
   history.forEach(item=>{
 
     const div =
-    document.createElement('div')
+    document.createElement("div")
 
     div.className =
     `history-card ${item.class}-border`
@@ -1307,22 +1178,6 @@ function renderHistory(){
     list.appendChild(div)
 
   })
-
-}
-
-/* 다시 */
-
-function restartQuiz(){
-
-  localStorage.removeItem("dailyCoinDate")
-
-  document
-  .getElementById('result')
-  .classList.add('hidden')
-
-  document
-  .getElementById('landing')
-  .classList.remove('hidden')
 
 }
 
