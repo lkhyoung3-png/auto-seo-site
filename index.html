@@ -182,6 +182,9 @@ button{
   font-size:14px;
 
   z-index:2;
+
+  text-align:center;
+  line-height:1.5;
 }
 
 .start-btn{
@@ -484,12 +487,14 @@ button{
 
   display:flex;
   gap:14px;
+  flex-wrap:wrap;
+  justify-content:center;
 
 }
 
 .action-btn{
 
-  width:170px;
+  width:160px;
   height:52px;
 
   border-radius:999px;
@@ -513,7 +518,105 @@ button{
   transform:translateY(-2px);
 }
 
-/* 등급별 */
+/* 히스토리 */
+
+.history-title{
+
+  font-size:14px;
+  letter-spacing:8px;
+  opacity:.55;
+
+  margin-bottom:30px;
+
+}
+
+.history-list{
+
+  width:100%;
+  max-width:420px;
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+
+  max-height:60vh;
+  overflow:auto;
+
+  padding:4px;
+
+}
+
+.history-card{
+
+  padding:20px;
+
+  border-radius:24px;
+
+  backdrop-filter:blur(12px);
+
+  background:
+  linear-gradient(145deg,
+  rgba(255,255,255,.06),
+  rgba(255,255,255,.02));
+
+  box-shadow:
+  0 20px 40px rgba(0,0,0,.35);
+
+}
+
+.history-date{
+
+  font-size:11px;
+  opacity:.45;
+  letter-spacing:2px;
+
+}
+
+.history-name{
+
+  margin-top:10px;
+
+  font-size:20px;
+  font-weight:200;
+
+}
+
+.history-rarity{
+
+  margin-top:10px;
+
+  font-size:11px;
+  letter-spacing:3px;
+  opacity:.65;
+
+}
+
+.common-border{
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.rare-border{
+  border:1px solid rgba(120,160,255,.45);
+
+  box-shadow:
+  0 0 25px rgba(120,160,255,.18);
+}
+
+.epic-border{
+  border:1px solid rgba(190,120,255,.5);
+
+  box-shadow:
+  0 0 35px rgba(190,120,255,.2);
+}
+
+.legendary-border{
+  border:1px solid rgba(255,255,255,.55);
+
+  box-shadow:
+  0 0 50px rgba(180,120,255,.45);
+}
+
+/* 등급 */
 
 .common{
 
@@ -677,11 +780,31 @@ button{
       SAVE
     </button>
 
+    <button class="action-btn" onclick="openHistory()">
+      MY COINS
+    </button>
+
     <button class="action-btn" onclick="restartQuiz()">
       RETRY
     </button>
 
   </div>
+
+</section>
+
+<!-- 히스토리 -->
+
+<section id="historyScreen" class="screen hidden">
+
+  <div class="history-title">
+    MY COINS
+  </div>
+
+  <div id="historyList" class="history-list"></div>
+
+  <button class="action-btn" onclick="closeHistory()">
+    CLOSE
+  </button>
 
 </section>
 
@@ -773,15 +896,13 @@ let questions = []
 let current = 0
 let score = 0
 
-/* 시드 */
+/* 날짜 */
 
-function getSeed(){
+function todayKey(){
 
   const d = new Date()
 
-  return d.getFullYear()
-  + d.getMonth()
-  + d.getDate()
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
 
 }
 
@@ -809,8 +930,13 @@ function seededShuffle(array, seed){
 
 function generateQuestions(){
 
+  const d = new Date()
+
+  const seed =
+  d.getFullYear() + d.getMonth() + d.getDate()
+
   questions =
-  seededShuffle(questionPool, getSeed())
+  seededShuffle(questionPool, seed)
   .slice(0,15)
 
 }
@@ -818,6 +944,17 @@ function generateQuestions(){
 /* 시작 */
 
 function startQuiz(){
+
+  const already =
+  localStorage.getItem("dailyCoinDate")
+
+  if(already === todayKey()){
+
+    showTodayCoin()
+
+    return
+
+  }
 
   generateQuestions()
 
@@ -860,7 +997,7 @@ function renderQuestion(){
 
 }
 
-/* 답 */
+/* 답변 */
 
 function answer(v){
 
@@ -897,7 +1034,8 @@ function showResult(){
 
   if(rand < 2){
 
-    selected = coins.find(c=>c.rarity==="LEGENDARY")
+    selected =
+    coins.find(c=>c.rarity==="LEGENDARY")
 
   }else if(rand < 10){
 
@@ -925,6 +1063,16 @@ function showResult(){
 
   }
 
+  renderCoin(selected)
+
+  saveHistory(selected)
+
+}
+
+/* 렌더 */
+
+function renderCoin(selected){
+
   const coin =
   document.getElementById('resultCoin')
 
@@ -947,6 +1095,71 @@ function showResult(){
   selected.desc
 
   makeSparkles(selected.rarity)
+
+}
+
+/* 저장 */
+
+function saveHistory(coin){
+
+  localStorage.setItem(
+    "dailyCoinDate",
+    todayKey()
+  )
+
+  localStorage.setItem(
+    "todayCoin",
+    JSON.stringify(coin)
+  )
+
+  let history =
+  JSON.parse(
+    localStorage.getItem("coinHistory") || "[]"
+  )
+
+  const exists =
+  history.find(h=>h.date===todayKey())
+
+  if(exists) return
+
+  history.unshift({
+
+    date:todayKey(),
+    name:coin.name,
+    rarity:coin.rarity,
+    class:coin.class
+
+  })
+
+  history = history.slice(0,30)
+
+  localStorage.setItem(
+    "coinHistory",
+    JSON.stringify(history)
+  )
+
+}
+
+/* 오늘 코인 */
+
+function showTodayCoin(){
+
+  const saved =
+  JSON.parse(
+    localStorage.getItem("todayCoin")
+  )
+
+  if(!saved) return
+
+  document
+  .getElementById('landing')
+  .classList.add('hidden')
+
+  document
+  .getElementById('result')
+  .classList.remove('hidden')
+
+  renderCoin(saved)
 
 }
 
@@ -1023,9 +1236,85 @@ function saveCoin(){
 
 }
 
+/* 히스토리 */
+
+function openHistory(){
+
+  document
+  .getElementById('historyScreen')
+  .classList.remove('hidden')
+
+  renderHistory()
+
+}
+
+function closeHistory(){
+
+  document
+  .getElementById('historyScreen')
+  .classList.add('hidden')
+
+}
+
+function renderHistory(){
+
+  const list =
+  document.getElementById('historyList')
+
+  const history =
+  JSON.parse(
+    localStorage.getItem("coinHistory") || "[]"
+  )
+
+  list.innerHTML = ""
+
+  if(history.length === 0){
+
+    list.innerHTML =
+    `
+      <div class="history-card">
+        아직 획득한 코인이 없습니다
+      </div>
+    `
+
+    return
+
+  }
+
+  history.forEach(item=>{
+
+    const div =
+    document.createElement('div')
+
+    div.className =
+    `history-card ${item.class}-border`
+
+    div.innerHTML =
+    `
+      <div class="history-date">
+        ${item.date}
+      </div>
+
+      <div class="history-name">
+        ${item.name}
+      </div>
+
+      <div class="history-rarity">
+        ${item.rarity}
+      </div>
+    `
+
+    list.appendChild(div)
+
+  })
+
+}
+
 /* 다시 */
 
 function restartQuiz(){
+
+  localStorage.removeItem("dailyCoinDate")
 
   document
   .getElementById('result')
