@@ -8,17 +8,16 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background: linear-gradient(135deg,#faf7ff,#ffffff);
-  font-family: -apple-system,sans-serif;
-  overflow:hidden;
+body{
+  margin:0;
+  font-family:-apple-system,sans-serif;
+  background:linear-gradient(135deg,#faf7ff,#ffffff);
+  overflow-x:hidden;
 }
 
-.screen {
+.screen{
   width:100vw;
-  height:100vh;
+  min-height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -28,134 +27,75 @@ body {
 .hidden{display:none;}
 
 /* ===================== */
-/* 🪙 COIN (3D) */
+/* COIN */
 /* ===================== */
 
-.hero-coin,
-.result-coin {
+.coin{
   width:220px;
   height:220px;
   border-radius:50%;
-  position:relative;
-  transform-style:preserve-3d;
-
-  background: radial-gradient(circle at 30% 30%,
-    #fff 0%,
-    #eef2f7 40%,
-    #cfd6e0 70%,
-    #aab4c0 100%);
-
-  box-shadow:
-    inset 0 14px 22px rgba(255,255,255,0.9),
-    inset 0 -18px 25px rgba(0,0,0,0.15),
-    0 25px 60px rgba(0,0,0,0.18);
-
   display:flex;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
+  transition:0.4s;
 
-  animation: float 4s ease-in-out infinite;
-  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.15);
 }
 
-/* shine */
-.hero-coin::after,
-.result-coin::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
-  transform:rotate(25deg);
-}
+.coin span{font-weight:300;}
 
-/* float */
-@keyframes float{
-  0%{transform:perspective(900px) rotateX(12deg) translateY(0)}
-  50%{transform:perspective(900px) rotateX(12deg) translateY(-10px)}
-  100%{transform:perspective(900px) rotateX(12deg) translateY(0)}
-}
+/* 레벨 */
+.bronze{background:linear-gradient(145deg,#caa46a,#8c6a3b);}
+.silver{background:linear-gradient(145deg,#e6e6e6,#9ea7b3);}
+.gold{background:linear-gradient(145deg,#ffe08a,#caa200);}
+.platinum{background:linear-gradient(145deg,#d7d7ff,#7b5cff);}
 
 /* ===================== */
-/* ✨ FLIP ANIMATION */
+/* BUTTON */
 /* ===================== */
 
-.flip {
-  animation: flip 0.8s ease;
-}
-
-@keyframes flip {
-  0% { transform: rotateY(0); }
-  50% { transform: rotateY(180deg) scale(1.1); }
-  100% { transform: rotateY(360deg); }
-}
-
-/* ===================== */
-/* ✨ RESULT BURST */
-/* ===================== */
-
-.burst {
-  animation: burst 0.8s ease;
-}
-
-@keyframes burst {
-  0% { box-shadow:0 0 0 rgba(123,92,255,0); }
-  50% { box-shadow:0 0 80px rgba(123,92,255,0.6); }
-  100% { box-shadow:0 0 0 rgba(123,92,255,0); }
-}
-
-/* ===================== */
-/* TEXT */
-/* ===================== */
-
-.logo{color:#7b5cff;letter-spacing:6px;margin-bottom:20px;}
-
-.start-btn,
-.btn,
-.action{
-  background:linear-gradient(145deg,#b794f4,#7b5cff);
-  color:white;
+.btn{
+  padding:12px 20px;
+  margin:6px;
   border:none;
   border-radius:999px;
-  cursor:pointer;
+  background:#7b5cff;
+  color:white;
 }
 
-/* quiz */
-.box{
-  width:85%;
+/* ===================== */
+/* HISTORY */
+/* ===================== */
+
+.history{
+  width:90%;
   max-width:420px;
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 20px 50px rgba(123,92,255,0.1);
-  text-align:center;
-}
-
-.btns{display:flex;gap:10px;}
-
-.btn{flex:1;height:50px;}
-
-/* result layout */
-.result-coin{
-  width:280px;height:280px;
-  flex-direction:column;
-  gap:8px;
-}
-
-#state{font-size:14px;letter-spacing:3px;opacity:.7;}
-#score{font-size:56px;color:#7b5cff;}
-#desc{font-size:13px;opacity:.6;}
-
-.action{
   margin-top:20px;
-  width:160px;height:50px;
 }
 
-/* PWA hint */
-.pwa {
+.card{
+  background:white;
+  margin:6px 0;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+}
+
+/* ===================== */
+/* INSTALL */
+/* ===================== */
+
+.install{
   position:fixed;
   bottom:20px;
-  font-size:12px;
-  opacity:.4;
+  background:#7b5cff;
+  color:white;
+  padding:10px 16px;
+  border-radius:999px;
+  display:none;
 }
 </style>
 </head>
@@ -164,38 +104,34 @@ body {
 
 <!-- START -->
 <div id="start" class="screen">
-  <div class="logo">DAILY COIN</div>
-  <div class="hero-coin" id="startCoin"></div>
-  <button class="start-btn" onclick="startQuiz()">START</button>
+  <h2>DAILY COIN</h2>
+  <button class="btn" onclick="start()">START</button>
 </div>
 
 <!-- QUIZ -->
 <div id="quiz" class="screen hidden">
-  <div class="box">
-    <div id="num"></div>
-    <div id="q" style="margin:20px 0;font-size:20px;"></div>
-
-    <div class="btns">
-      <button class="btn" onclick="answer(0)">NO</button>
-      <button class="btn" onclick="answer(1)">YES</button>
-    </div>
-  </div>
+  <div id="q"></div>
+  <div id="opt"></div>
 </div>
 
 <!-- RESULT -->
 <div id="result" class="screen hidden">
 
-  <div class="result-coin" id="capture">
-    <div id="state"></div>
+  <div id="coin" class="coin">
+    <div id="level"></div>
     <div id="score"></div>
-    <div id="desc"></div>
   </div>
 
-  <button class="action" onclick="save()">SAVE</button>
-  <button class="action" onclick="restart()">RETRY</button>
+  <div id="todayCard"></div>
+
+  <button class="btn" onclick="save()">SAVE</button>
+  <button class="btn" onclick="restart()">RETRY</button>
+
+  <div class="history" id="history"></div>
+
 </div>
 
-<div class="pwa">📱 홈화면 추가 가능</div>
+<button id="installBtn" class="install">📦 앱 설치</button>
 
 <script>
 
@@ -203,12 +139,15 @@ body {
 /* DATA */
 /* ===================== */
 
-const pool = [
-"오늘 기분 어때?","에너지 충분해?","스트레스 있었어?",
-"쉬고 싶었어?","집중 잘 됐어?","피곤했어?",
-"사람 만나는 거 어땠어?","의욕 있었어?",
-"휴식 필요해?","하루 만족해?","감정 안정됐어?",
-"집중 흐트러졌어?","불안했어?","기분 좋았어?"
+const pool=[
+"오늘 기분?","에너지?","스트레스?","집중?","피로?","의욕?","마음 상태?"
+];
+
+const options=[
+{t:"좋음",v:0},
+{t:"보통",v:1},
+{t:"나쁨",v:2},
+{t:"최악",v:3}
 ];
 
 let qs=[],i=0,s=0;
@@ -217,97 +156,115 @@ let qs=[],i=0,s=0;
 /* DAILY LIMIT */
 /* ===================== */
 
-function canStart(){
-  return localStorage.getItem("done") !== new Date().toDateString();
+function can(){
+ return localStorage.getItem("done")!==new Date().toDateString();
 }
 
 /* ===================== */
-/* SHUFFLE DAILY */
+/* START */
 /* ===================== */
 
-function shuffle(arr){
-  return [...arr].sort(()=>Math.random()-0.5).slice(0,15);
+function start(){
+
+ if(!can()){
+  alert("오늘 완료됨 🌿");
+  return;
+ }
+
+ qs=[...pool].sort(()=>Math.random()-0.5).slice(0,7);
+ i=0;s=0;
+
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("quiz").classList.remove("hidden");
+
+ render();
 }
 
 /* ===================== */
-/* START (flip animation) */
-/* ===================== */
-
-function startQuiz(){
-
-  if(!canStart()){
-    alert("오늘 이미 완료했어요 🌿");
-    return;
-  }
-
-  document.getElementById("startCoin").classList.add("flip");
-
-  setTimeout(()=>{
-
-    qs = shuffle(pool);
-    i=0;s=0;
-
-    document.getElementById("start").classList.add("hidden");
-    document.getElementById("quiz").classList.remove("hidden");
-
-    render();
-
-  },800);
-}
-
-/* ===================== */
-/* QUESTION */
+/* Q */
 /* ===================== */
 
 function render(){
-  document.getElementById("num").innerText=`${i+1}/15`;
-  document.getElementById("q").innerText=qs[i];
+ document.getElementById("q").innerText=qs[i];
+
+ const box=document.getElementById("opt");
+ box.innerHTML="";
+
+ options.forEach(o=>{
+  let b=document.createElement("button");
+  b.className="btn";
+  b.innerText=o.t;
+  b.onclick=()=>ans(o.v);
+  box.appendChild(b);
+ });
 }
 
-function answer(v){
-  s+=v;
-  i++;
-
-  if(i<qs.length) render();
-  else result();
+function ans(v){
+ s+=v;
+ i++;
+ if(i<qs.length)render();
+ else result();
 }
 
 /* ===================== */
-/* RESULT + BURST */
+/* RESULT + LEVEL */
 /* ===================== */
 
 function result(){
 
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
+ document.getElementById("quiz").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
 
-  const percent=Math.round((s/qs.length)*100);
+ let percent=Math.round((s/(qs.length*3))*100);
 
-  let state="STABLE",desc="좋은 흐름 🌿";
+ let level="bronze";
 
-  if(percent>70){state="CRITICAL";desc="휴식 필요 💭";}
-  else if(percent>40){state="BALANCE";desc="조금 쉬기 ☕";}
+ if(percent<30)level="platinum";
+ else if(percent<50)level="gold";
+ else if(percent<75)level="silver";
 
-  document.getElementById("state").innerText=state;
-  document.getElementById("score").innerText=percent+"%";
-  document.getElementById("desc").innerText=desc;
+ document.getElementById("coin").className="coin "+level;
+ document.getElementById("level").innerText=level.toUpperCase();
+ document.getElementById("score").innerText=percent+"%";
 
-  document.getElementById("capture").classList.add("burst");
+ document.getElementById("todayCard").innerHTML=
+ "오늘 상태: "+level;
 
-  saveHistory(percent,state);
+ saveHistory(percent,level);
 
-  localStorage.setItem("done",new Date().toDateString());
+ localStorage.setItem("done",new Date().toDateString());
+
+ showHistory();
 }
 
 /* ===================== */
-/* HISTORY (5 days) */
+/* HISTORY (5 DAYS) */
 /* ===================== */
 
-function saveHistory(p,s){
-  let h=JSON.parse(localStorage.getItem("history")||"[]");
-  h.unshift({date:new Date().toLocaleDateString(),p,s});
-  h=h.slice(0,5);
-  localStorage.setItem("history",JSON.stringify(h));
+function saveHistory(p,l){
+
+ let h=JSON.parse(localStorage.getItem("h")||"[]");
+
+ h.unshift({
+  d:new Date().toLocaleDateString(),
+  p,l
+ });
+
+ h=h.slice(0,5);
+ localStorage.setItem("h",JSON.stringify(h));
+}
+
+function showHistory(){
+
+ let h=JSON.parse(localStorage.getItem("h")||"[]");
+
+ document.getElementById("history").innerHTML=
+ h.map(x=>
+ `<div class="card">
+  <div>${x.d}</div>
+  <div>${x.l} ${x.p}%</div>
+ </div>`
+ ).join("");
 }
 
 /* ===================== */
@@ -315,12 +272,12 @@ function saveHistory(p,s){
 /* ===================== */
 
 function save(){
-  html2canvas(document.getElementById("capture")).then(c=>{
-    let a=document.createElement("a");
-    a.download="daily-coin.png";
-    a.href=c.toDataURL();
-    a.click();
-  });
+ html2canvas(document.getElementById("coin")).then(c=>{
+  let a=document.createElement("a");
+  a.download="coin.png";
+  a.href=c.toDataURL();
+  a.click();
+ });
 }
 
 /* ===================== */
@@ -328,9 +285,28 @@ function save(){
 /* ===================== */
 
 function restart(){
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("start").classList.remove("hidden");
+ document.getElementById("result").classList.add("hidden");
+ document.getElementById("start").classList.remove("hidden");
 }
+
+/* ===================== */
+/* PWA INSTALL */
+/* ===================== */
+
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt",(e)=>{
+ e.preventDefault();
+ deferredPrompt=e;
+ document.getElementById("installBtn").style.display="block";
+});
+
+document.getElementById("installBtn").onclick=async()=>{
+ if(deferredPrompt){
+  deferredPrompt.prompt();
+  deferredPrompt=null;
+ }
+};
 
 </script>
 
