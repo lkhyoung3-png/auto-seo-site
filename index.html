@@ -12,12 +12,11 @@ body{
   margin:0;
   font-family:-apple-system,sans-serif;
   background:linear-gradient(135deg,#faf7ff,#ffffff);
-  overflow-x:hidden;
 }
 
 .screen{
   width:100vw;
-  min-height:100vh;
+  height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -26,76 +25,40 @@ body{
 
 .hidden{display:none;}
 
-/* ===================== */
-/* COIN */
-/* ===================== */
+/* START */
+#start h1{
+  color:#7b5cff;
+  letter-spacing:4px;
+}
 
+/* COIN */
 .coin{
   width:220px;
   height:220px;
   border-radius:50%;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-  transition:0.4s;
-
+  background:linear-gradient(145deg,#e9e9ff,#cfc7ff);
   box-shadow:0 20px 60px rgba(0,0,0,0.15);
+  transition:0.3s;
 }
 
-.coin span{font-weight:300;}
-
-/* 레벨 */
 .bronze{background:linear-gradient(145deg,#caa46a,#8c6a3b);}
 .silver{background:linear-gradient(145deg,#e6e6e6,#9ea7b3);}
 .gold{background:linear-gradient(145deg,#ffe08a,#caa200);}
 .platinum{background:linear-gradient(145deg,#d7d7ff,#7b5cff);}
 
-/* ===================== */
 /* BUTTON */
-/* ===================== */
-
-.btn{
-  padding:12px 20px;
-  margin:6px;
+button{
+  margin-top:10px;
+  padding:12px 18px;
   border:none;
   border-radius:999px;
   background:#7b5cff;
   color:white;
-}
-
-/* ===================== */
-/* HISTORY */
-/* ===================== */
-
-.history{
-  width:90%;
-  max-width:420px;
-  margin-top:20px;
-}
-
-.card{
-  background:white;
-  margin:6px 0;
-  padding:10px;
-  border-radius:10px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.08);
-  display:flex;
-  justify-content:space-between;
-}
-
-/* ===================== */
-/* INSTALL */
-/* ===================== */
-
-.install{
-  position:fixed;
-  bottom:20px;
-  background:#7b5cff;
-  color:white;
-  padding:10px 16px;
-  border-radius:999px;
-  display:none;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -104,14 +67,17 @@ body{
 
 <!-- START -->
 <div id="start" class="screen">
-  <h2>DAILY COIN</h2>
-  <button class="btn" onclick="start()">START</button>
+  <h1>DAILY COIN</h1>
+  <button onclick="startQuiz()">START</button>
 </div>
 
 <!-- QUIZ -->
 <div id="quiz" class="screen hidden">
-  <div id="q"></div>
-  <div id="opt"></div>
+  <div id="q" style="font-size:20px;margin-bottom:20px;"></div>
+  <button onclick="answer(0)">좋음</button>
+  <button onclick="answer(1)">보통</button>
+  <button onclick="answer(2)">나쁨</button>
+  <button onclick="answer(3)">최악</button>
 </div>
 
 <!-- RESULT -->
@@ -122,16 +88,10 @@ body{
     <div id="score"></div>
   </div>
 
-  <div id="todayCard"></div>
+  <div id="desc" style="margin-top:10px;"></div>
 
-  <button class="btn" onclick="save()">SAVE</button>
-  <button class="btn" onclick="restart()">RETRY</button>
-
-  <div class="history" id="history"></div>
-
+  <button onclick="restart()">RETRY</button>
 </div>
-
-<button id="installBtn" class="install">📦 앱 설치</button>
 
 <script>
 
@@ -140,144 +100,99 @@ body{
 /* ===================== */
 
 const pool=[
-"오늘 기분?","에너지?","스트레스?","집중?","피로?","의욕?","마음 상태?"
+"오늘 기분 어때?","에너지 상태는?","스트레스 있었어?",
+"집중 잘 됐어?","피로감 있어?"
 ];
 
-const options=[
-{t:"좋음",v:0},
-{t:"보통",v:1},
-{t:"나쁨",v:2},
-{t:"최악",v:3}
-];
-
-let qs=[],i=0,s=0;
+let qs=[];
+let i=0;
+let s=0;
 
 /* ===================== */
-/* DAILY LIMIT */
+/* 하루 제한 (핵심 수정) */
 /* ===================== */
 
-function can(){
- return localStorage.getItem("done")!==new Date().toDateString();
+function today(){
+  return new Date().toDateString();
+}
+
+function canStart(){
+  const done = localStorage.getItem("done");
+  return done !== today();
 }
 
 /* ===================== */
-/* START */
+/* START (핵심 안정화) */
 /* ===================== */
 
-function start(){
+function startQuiz(){
 
- if(!can()){
-  alert("오늘 완료됨 🌿");
-  return;
- }
+  console.log("START CLICK");
 
- qs=[...pool].sort(()=>Math.random()-0.5).slice(0,7);
- i=0;s=0;
+  if(!canStart()){
+    alert("오늘은 이미 완료했어요 🌿");
+    return;
+  }
 
- document.getElementById("start").classList.add("hidden");
- document.getElementById("quiz").classList.remove("hidden");
+  qs = [...pool].sort(()=>Math.random()-0.5).slice(0,5);
+  i=0;
+  s=0;
 
- render();
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  render();
 }
 
 /* ===================== */
-/* Q */
+/* QUESTION */
 /* ===================== */
 
 function render(){
- document.getElementById("q").innerText=qs[i];
-
- const box=document.getElementById("opt");
- box.innerHTML="";
-
- options.forEach(o=>{
-  let b=document.createElement("button");
-  b.className="btn";
-  b.innerText=o.t;
-  b.onclick=()=>ans(o.v);
-  box.appendChild(b);
- });
-}
-
-function ans(v){
- s+=v;
- i++;
- if(i<qs.length)render();
- else result();
+  document.getElementById("q").innerText = qs[i];
 }
 
 /* ===================== */
-/* RESULT + LEVEL */
+/* ANSWER */
+/* ===================== */
+
+function answer(v){
+  s += v;
+  i++;
+
+  if(i < qs.length){
+    render();
+  } else {
+    result();
+  }
+}
+
+/* ===================== */
+/* RESULT */
 /* ===================== */
 
 function result(){
 
- document.getElementById("quiz").classList.add("hidden");
- document.getElementById("result").classList.remove("hidden");
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
- let percent=Math.round((s/(qs.length*3))*100);
+  const percent = Math.round((s/(qs.length*3))*100);
 
- let level="bronze";
+  let level="bronze";
+  let text="OK";
 
- if(percent<30)level="platinum";
- else if(percent<50)level="gold";
- else if(percent<75)level="silver";
+  if(percent < 30){ level="platinum"; text="좋음 🌿"; }
+  else if(percent < 50){ level="gold"; text="보통 ☕"; }
+  else if(percent < 75){ level="silver"; text="피로 ⚠"; }
+  else { level="bronze"; text="위험 💭"; }
 
- document.getElementById("coin").className="coin "+level;
- document.getElementById("level").innerText=level.toUpperCase();
- document.getElementById("score").innerText=percent+"%";
+  document.getElementById("coin").className="coin "+level;
+  document.getElementById("level").innerText=level.toUpperCase();
+  document.getElementById("score").innerText=percent+"%";
+  document.getElementById("desc").innerText=text;
 
- document.getElementById("todayCard").innerHTML=
- "오늘 상태: "+level;
-
- saveHistory(percent,level);
-
- localStorage.setItem("done",new Date().toDateString());
-
- showHistory();
-}
-
-/* ===================== */
-/* HISTORY (5 DAYS) */
-/* ===================== */
-
-function saveHistory(p,l){
-
- let h=JSON.parse(localStorage.getItem("h")||"[]");
-
- h.unshift({
-  d:new Date().toLocaleDateString(),
-  p,l
- });
-
- h=h.slice(0,5);
- localStorage.setItem("h",JSON.stringify(h));
-}
-
-function showHistory(){
-
- let h=JSON.parse(localStorage.getItem("h")||"[]");
-
- document.getElementById("history").innerHTML=
- h.map(x=>
- `<div class="card">
-  <div>${x.d}</div>
-  <div>${x.l} ${x.p}%</div>
- </div>`
- ).join("");
-}
-
-/* ===================== */
-/* SAVE IMAGE */
-/* ===================== */
-
-function save(){
- html2canvas(document.getElementById("coin")).then(c=>{
-  let a=document.createElement("a");
-  a.download="coin.png";
-  a.href=c.toDataURL();
-  a.click();
- });
+  /* 🔥 하루 완료 저장 */
+  localStorage.setItem("done", today());
 }
 
 /* ===================== */
@@ -285,28 +200,9 @@ function save(){
 /* ===================== */
 
 function restart(){
- document.getElementById("result").classList.add("hidden");
- document.getElementById("start").classList.remove("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("start").classList.remove("hidden");
 }
-
-/* ===================== */
-/* PWA INSTALL */
-/* ===================== */
-
-let deferredPrompt;
-
-window.addEventListener("beforeinstallprompt",(e)=>{
- e.preventDefault();
- deferredPrompt=e;
- document.getElementById("installBtn").style.display="block";
-});
-
-document.getElementById("installBtn").onclick=async()=>{
- if(deferredPrompt){
-  deferredPrompt.prompt();
-  deferredPrompt=null;
- }
-};
 
 </script>
 
