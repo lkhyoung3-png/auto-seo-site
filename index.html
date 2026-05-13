@@ -5,61 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DAILY COIN</title>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
 <style>
 body{
   margin:0;
-  font-family:-apple-system,sans-serif;
-  background:linear-gradient(135deg,#faf7ff,#ffffff);
+  font-family:sans-serif;
+  background:#f6f4ff;
 }
 
 .screen{
   width:100vw;
   height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
 }
 
 .hidden{display:none;}
 
-/* START */
-#start h1{
-  color:#7b5cff;
-  letter-spacing:4px;
-}
-
-/* COIN */
-.coin{
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(145deg,#e9e9ff,#cfc7ff);
-  box-shadow:0 20px 60px rgba(0,0,0,0.15);
-  transition:0.3s;
-}
-
-.bronze{background:linear-gradient(145deg,#caa46a,#8c6a3b);}
-.silver{background:linear-gradient(145deg,#e6e6e6,#9ea7b3);}
-.gold{background:linear-gradient(145deg,#ffe08a,#caa200);}
-.platinum{background:linear-gradient(145deg,#d7d7ff,#7b5cff);}
-
-/* BUTTON */
 button{
-  margin-top:10px;
-  padding:12px 18px;
+  padding:12px 20px;
   border:none;
   border-radius:999px;
   background:#7b5cff;
   color:white;
+  margin-top:10px;
   cursor:pointer;
 }
+
+.coin{
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#e8e8ff,#cfc7ff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  box-shadow:0 20px 50px rgba(0,0,0,0.15);
+}
+
 </style>
 </head>
 
@@ -68,27 +53,26 @@ button{
 <!-- START -->
 <div id="start" class="screen">
   <h1>DAILY COIN</h1>
-  <button onclick="startQuiz()">START</button>
+  <button onclick="start()">START</button>
 </div>
 
 <!-- QUIZ -->
 <div id="quiz" class="screen hidden">
-  <div id="q" style="font-size:20px;margin-bottom:20px;"></div>
-  <button onclick="answer(0)">좋음</button>
-  <button onclick="answer(1)">보통</button>
-  <button onclick="answer(2)">나쁨</button>
-  <button onclick="answer(3)">최악</button>
+  <div id="q"></div>
+  <button onclick="ans(0)">좋음</button>
+  <button onclick="ans(1)">보통</button>
+  <button onclick="ans(2)">나쁨</button>
+  <button onclick="ans(3)">최악</button>
 </div>
 
 <!-- RESULT -->
 <div id="result" class="screen hidden">
-
-  <div id="coin" class="coin">
+  <div class="coin">
     <div id="level"></div>
     <div id="score"></div>
   </div>
 
-  <div id="desc" style="margin-top:10px;"></div>
+  <div id="desc"></div>
 
   <button onclick="restart()">RETRY</button>
 </div>
@@ -99,71 +83,50 @@ button{
 /* DATA */
 /* ===================== */
 
-const pool=[
-"오늘 기분 어때?","에너지 상태는?","스트레스 있었어?",
-"집중 잘 됐어?","피로감 있어?"
+const qlist=[
+"오늘 기분 어때?","에너지 상태는?","스트레스 있었어?","피곤했어?","집중 잘 됐어?"
 ];
 
-let qs=[];
 let i=0;
 let s=0;
 
 /* ===================== */
-/* 하루 제한 (핵심 수정) */
+/* START (핵심) */
 /* ===================== */
 
-function today(){
-  return new Date().toDateString();
-}
+function start(){
 
-function canStart(){
-  const done = localStorage.getItem("done");
-  return done !== today();
-}
+  console.log("START OK");
 
-/* ===================== */
-/* START (핵심 안정화) */
-/* ===================== */
-
-function startQuiz(){
-
-  console.log("START CLICK");
-
-  if(!canStart()){
-    alert("오늘은 이미 완료했어요 🌿");
-    return;
-  }
-
-  qs = [...pool].sort(()=>Math.random()-0.5).slice(0,5);
   i=0;
   s=0;
 
   document.getElementById("start").classList.add("hidden");
   document.getElementById("quiz").classList.remove("hidden");
 
-  render();
+  next();
 }
 
 /* ===================== */
 /* QUESTION */
 /* ===================== */
 
-function render(){
-  document.getElementById("q").innerText = qs[i];
+function next(){
+  document.getElementById("q").innerText = qlist[i];
 }
 
 /* ===================== */
 /* ANSWER */
 /* ===================== */
 
-function answer(v){
+function ans(v){
   s += v;
   i++;
 
-  if(i < qs.length){
-    render();
+  if(i < qlist.length){
+    next();
   } else {
-    result();
+    show();
   }
 }
 
@@ -171,28 +134,20 @@ function answer(v){
 /* RESULT */
 /* ===================== */
 
-function result(){
+function show(){
 
   document.getElementById("quiz").classList.add("hidden");
   document.getElementById("result").classList.remove("hidden");
 
-  const percent = Math.round((s/(qs.length*3))*100);
+  let percent = Math.round((s/(qlist.length*3))*100);
 
-  let level="bronze";
-  let text="OK";
+  let level="GOOD";
+  if(percent>70) level="CRITICAL";
+  else if(percent>40) level="NORMAL";
 
-  if(percent < 30){ level="platinum"; text="좋음 🌿"; }
-  else if(percent < 50){ level="gold"; text="보통 ☕"; }
-  else if(percent < 75){ level="silver"; text="피로 ⚠"; }
-  else { level="bronze"; text="위험 💭"; }
-
-  document.getElementById("coin").className="coin "+level;
-  document.getElementById("level").innerText=level.toUpperCase();
-  document.getElementById("score").innerText=percent+"%";
-  document.getElementById("desc").innerText=text;
-
-  /* 🔥 하루 완료 저장 */
-  localStorage.setItem("done", today());
+  document.getElementById("level").innerText = level;
+  document.getElementById("score").innerText = percent + "%";
+  document.getElementById("desc").innerText = "오늘 상태: " + level;
 }
 
 /* ===================== */
